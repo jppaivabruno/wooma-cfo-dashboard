@@ -215,6 +215,110 @@ body.light .nav-item:hover { background: rgba(0,153,187,0.06); color: #0099BB; }
 /* SYNC dot */
 body.light .sd { background: #00A85A; box-shadow: 0 0 6px rgba(0,168,90,0.5); }
 
+/* slabel, tb-sub, klabel visibility */
+body.light .slabel { color: rgba(13,15,26,0.45); }
+body.light .slabel::before { background: linear-gradient(90deg, rgba(0,153,187,0.5), rgba(0,153,187,0.15)); }
+body.light .slabel::after  { background: linear-gradient(90deg, rgba(0,0,0,0.1), transparent); }
+body.light .tb-sub { color: rgba(13,15,26,0.45); }
+body.light .klabel { color: rgba(13,15,26,0.52); }
+
+/* KPI card accent gradients — white backgrounds with just top bar */
+body.light .kc.ac-green {
+  border-color: rgba(0,153,90,0.25);
+  background: #FFFFFF;
+}
+body.light .kc.ac-green::after { box-shadow: none; background: linear-gradient(90deg, transparent 5%, var(--green) 40%, transparent 95%); }
+body.light .kc.ac-red {
+  border-color: rgba(204,31,68,0.25);
+  background: #FFFFFF;
+}
+body.light .kc.ac-red::after { box-shadow: none; background: linear-gradient(90deg, transparent 5%, var(--red) 40%, transparent 95%); }
+body.light .kc.ac-blue {
+  border-color: rgba(29,111,204,0.25);
+  background: #FFFFFF;
+}
+body.light .kc.ac-blue::after { box-shadow: none; background: linear-gradient(90deg, transparent 5%, var(--blue) 40%, transparent 95%); }
+body.light .kc.ac-amber {
+  border-color: rgba(185,122,0,0.25);
+  background: #FFFFFF;
+}
+body.light .kc.ac-amber::after { box-shadow: none; background: linear-gradient(90deg, transparent 5%, var(--amber) 40%, transparent 95%); }
+
+/* kc icon variants */
+body.light .kc.ac-green .kc-icon { background: rgba(0,153,90,0.1); border-color: rgba(0,153,90,0.25); }
+body.light .kc.ac-red .kc-icon   { background: rgba(204,31,68,0.1); border-color: rgba(204,31,68,0.25); }
+body.light .kc.ac-blue .kc-icon  { background: rgba(29,111,204,0.1); border-color: rgba(29,111,204,0.25); }
+body.light .kc.ac-amber .kc-icon { background: rgba(185,122,0,0.1); border-color: rgba(185,122,0,0.25); }
+
+/* Banner */
+body.light .banner {
+  background: rgba(0,153,187,0.08);
+  border-color: rgba(0,153,187,0.2);
+  color: rgba(13,15,26,0.65);
+}
+
+/* Meta card */
+body.light .meta-card {
+  background: #FFFFFF;
+  border-color: rgba(0,153,187,0.2);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+body.light .meta-card::after {
+  background: radial-gradient(circle, rgba(0,153,187,0.06) 0%, transparent 65%);
+}
+body.light .mi {
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.08);
+}
+
+/* Active nav item — remove dark rgba gradient */
+body.light .nav-item.active {
+  background: rgba(0,153,187,0.10);
+  border-color: rgba(0,153,187,0.2);
+}
+
+/* GC/CC/SC/KC base border fix */
+body.light .gc,
+body.light .cc,
+body.light .sc,
+body.light .kc {
+  border-color: rgba(0,0,0,0.08);
+}
+body.light .gc:hover,
+body.light .cc:hover,
+body.light .sc:hover,
+body.light .kc:hover {
+  border-color: rgba(0,153,187,0.3);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* tbl-card, inv-card borders */
+body.light .tbl-card,
+body.light .inv-card {
+  border-color: rgba(0,0,0,0.08);
+}
+
+/* Table row hover */
+body.light tbody tr:hover td { background: rgba(0,0,0,0.03); }
+body.light tbody td { border-bottom-color: rgba(0,0,0,0.06); }
+body.light thead th { border-bottom-color: rgba(0,0,0,0.1); }
+
+/* irow borders */
+body.light .irow { border-bottom-color: rgba(0,0,0,0.06); }
+
+/* be-card */
+body.light .be-card {
+  background: #F4F5FB;
+  border-color: rgba(0,0,0,0.08);
+}
+
+/* CMV track */
+body.light .cmv-track { background: rgba(0,0,0,0.08); }
+body.light .cmv-label { color: rgba(13,15,26,0.5); }
+
+/* kbar track */
+body.light .kbar { background: rgba(0,0,0,0.07); }
+
 /* Scanline overlay — removed */
 body::before { display: none; }
 
@@ -935,6 +1039,151 @@ tbody tr:hover td { background: var(--surface2); }
 /* Hoverable SVG bars */
 .bar-hover { cursor: pointer; transition: opacity .15s; }
 .bar-hover:hover { opacity: 0.8; }
+
+/* ── INLINE EDITING ── */
+.row-edit-btn {
+  opacity: 0;
+  background: none;
+  border: none;
+  color: var(--cyan);
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 5px;
+  font-size: 13px;
+  transition: opacity .15s, background .15s;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+tbody tr:hover .row-edit-btn,
+.irow:hover .row-edit-btn,
+.cmv-row:hover .row-edit-btn {
+  opacity: 1;
+}
+.row-edit-btn:hover { background: var(--cyan-dim); }
+
+.edit-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--cyan);
+  color: inherit;
+  font: inherit;
+  width: 100%;
+  outline: none;
+  padding: 1px 2px;
+}
+
+.row-save-btn, .row-cancel-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background .15s;
+}
+.row-save-btn   { color: var(--green); }
+.row-cancel-btn { color: var(--red); }
+.row-save-btn:hover   { background: var(--green-dim); }
+.row-cancel-btn:hover { background: var(--red-dim); }
+
+/* row action cell */
+td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; }
+.irow-actions { display: flex; align-items: center; gap: 2px; }
+
+/* Add button */
+.btn-add-row {
+  background: rgba(0,207,235,0.08);
+  border: 1px dashed rgba(0,207,235,0.3);
+  color: var(--cyan);
+  border-radius: 8px;
+  padding: 9px 16px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: var(--font-body);
+  margin-top: 12px;
+  transition: background .18s, border-color .18s;
+  display: block;
+  text-align: center;
+}
+.btn-add-row:hover {
+  background: rgba(0,207,235,0.14);
+  border-color: rgba(0,207,235,0.55);
+}
+
+/* ── MOBILE RESPONSIVE ── */
+.btn-hamburger {
+  display: none;
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  color: var(--text-2);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.btn-hamburger:hover {
+  background: var(--surface2);
+  color: var(--text);
+  border-color: var(--cyan);
+}
+
+.sb-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,12,0.6);
+  z-index: 150;
+}
+.sb-overlay.show { display: block; }
+
+@media (max-width: 767px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform .3s ease;
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sb-overlay.show { display: block; }
+  .wrap { margin-left: 0; }
+  .btn-hamburger { display: flex; }
+
+  .topbar { padding: 0 14px; }
+  .main { padding: 16px 14px 60px; }
+
+  .kg { grid-template-columns: 1fr; }
+  .sg { grid-template-columns: repeat(2,1fr); }
+  .cg { grid-template-columns: 1fr; }
+  .be-grid { grid-template-columns: 1fr; }
+  .sum-row { grid-template-columns: 1fr; }
+
+  .meta-card {
+    grid-template-columns: 1fr;
+  }
+  .gauge-wrap { margin-top: 16px; }
+
+  .tbl-card, .inv-card, .cc, .gc, .sc, .kc { overflow-x: visible; }
+  .tbl-scroll-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  .meta-items { grid-template-columns: 1fr 1fr; }
+
+  .day-grid { grid-template-columns: 1fr; }
+  .day-stat { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 14px; margin-bottom: 14px; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .kg { grid-template-columns: repeat(2,1fr); }
+  .sg { grid-template-columns: repeat(2,1fr); }
+}
+
+@media (min-width: 768px) {
+  .btn-hamburger { display: none; }
+  .sb-overlay { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -945,6 +1194,9 @@ tbody tr:hover td { background: var(--surface2); }
   <div class="tt-val" id="tt-val"></div>
   <div class="tt-sub" id="tt-sub"></div>
 </div>
+
+<!-- Sidebar overlay (mobile) -->
+<div class="sb-overlay" onclick="toggleSidebar()"></div>
 
 <!-- ══ SIDEBAR ══ -->
 <aside class="sidebar">
@@ -1011,6 +1263,7 @@ tbody tr:hover td { background: var(--surface2); }
       <div class="tb-sub" id="pg-sub">SYS:ACTIVE // MAIO 2026 // WOOMA ANALYTICS</div>
     </div>
     <div class="tb-r">
+      <button class="btn-hamburger" onclick="toggleSidebar()" title="Menu">☰</button>
       <div class="month-sel">‹ &nbsp;MAIO 2026&nbsp; ›</div>
       <button class="btn-theme" onclick="toggleTheme()" title="Alternar tema">
         <!-- Lua = modo escuro ativo -->
@@ -1340,7 +1593,7 @@ tbody tr:hover td { background: var(--surface2); }
     </div>
     <div class="tbl-card">
       <div style="margin-bottom:14px"><div class="ct">Detalhamento por Dia</div><div class="cs">RECEITA, CUSTOS, LUCRO E INDICADORES DIÁRIOS</div></div>
-      <table>
+      <div class="tbl-scroll-wrap"><table>
         <thead><tr><th>Data</th><th>Receita</th><th>Mkt</th><th>Logística</th><th>CMV</th><th>Taxas</th><th>Lucro</th><th>Margem</th><th>ROAS</th><th>CAC</th><th>Ticket</th></tr></thead>
         <tbody>
           <tr><td class="td-date">01/05</td><td class="td-receita">R$54.000</td><td>R$28.000</td><td>R$120</td><td>R$8.981</td><td>R$3.914</td><td class="td-lucro">R$7.567</td><td><span class="pill pill-n">14,0%</span></td><td style="font-weight:600;font-family:var(--font-mono)">1,93×</td><td style="color:var(--text-2);font-family:var(--font-mono)">R$298</td><td style="font-family:var(--font-mono)">R$574</td></tr>
@@ -1348,7 +1601,7 @@ tbody tr:hover td { background: var(--surface2); }
           <tr><td class="td-date">03/05</td><td class="td-receita">R$320.542</td><td>R$150.000</td><td>R$12.000</td><td>R$17.797</td><td>R$22.497</td><td class="td-lucro">R$115.015</td><td><span class="pill pill-g">35,9%</span></td><td style="font-weight:600;font-family:var(--font-mono)">2,14×</td><td style="color:var(--text-2);font-family:var(--font-mono)">R$789</td><td style="font-family:var(--font-mono)">R$1.687</td></tr>
           <tr style="background:var(--surface2)"><td class="td-date" style="color:var(--text-3)">TOTAL</td><td style="font-weight:700;color:var(--green);font-family:var(--font-mono)">R$408.542</td><td style="font-weight:700;font-family:var(--font-mono)">R$190.000</td><td style="font-weight:700;font-family:var(--font-mono)">R$12.670</td><td style="font-weight:700;font-family:var(--font-mono)">R$33.349</td><td style="font-weight:700;font-family:var(--font-mono)">R$28.873</td><td style="font-weight:700;color:var(--cyan);font-family:var(--font-mono)">R$133.480</td><td><span class="pill pill-g">27,3%</span></td><td style="font-weight:700;font-family:var(--font-mono)">2,30×</td><td style="font-weight:700;font-family:var(--font-mono)">R$431</td><td style="font-weight:700;font-family:var(--font-mono)">R$949</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </div>
 
@@ -1364,7 +1617,7 @@ tbody tr:hover td { background: var(--surface2); }
     </div>
     <div class="tbl-card">
       <div style="margin-bottom:14px"><div class="ct">ROAS por Canal</div><div class="cs">EFICIÊNCIA DE INVESTIMENTO POR CANAL // MAIO 2026</div></div>
-      <table>
+      <div class="tbl-scroll-wrap"><table>
         <thead><tr><th>Canal</th><th>Investimento</th><th>Receita</th><th>ROAS</th><th>Pedidos</th><th>CAC</th><th>Share</th></tr></thead>
         <tbody>
           <tr><td class="td-date">Meta Ads</td><td style="font-family:var(--font-mono)">R$128.000</td><td class="td-receita">R$280.000</td><td><span class="pill pill-g">2,19×</span></td><td style="font-family:var(--font-mono)">198</td><td style="font-family:var(--font-mono)">R$646</td><td style="font-family:var(--font-mono)">68,5%</td></tr>
@@ -1372,7 +1625,7 @@ tbody tr:hover td { background: var(--surface2); }
           <tr><td class="td-date">Google/YouTube</td><td style="font-family:var(--font-mono)">R$20.000</td><td class="td-receita">R$33.542</td><td><span class="pill pill-a">1,68×</span></td><td style="font-family:var(--font-mono)">40</td><td style="font-family:var(--font-mono)">R$500</td><td style="font-family:var(--font-mono)">8,2%</td></tr>
           <tr style="background:var(--surface2)"><td class="td-date" style="color:var(--text-3)">TOTAL</td><td style="font-weight:700;font-family:var(--font-mono)">R$190.000</td><td style="font-weight:700;color:var(--green);font-family:var(--font-mono)">R$408.542</td><td><span class="pill pill-g">2,30×</span></td><td style="font-weight:700;font-family:var(--font-mono)">342</td><td style="font-weight:700;font-family:var(--font-mono)">R$431</td><td style="font-weight:700;font-family:var(--font-mono)">100%</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </div>
 
@@ -1402,14 +1655,14 @@ tbody tr:hover td { background: var(--surface2); }
     <div class="banner">// <b>PRECIFICAÇÃO</b> · Estrutura de preços e margens por SKU</div>
     <div class="tbl-card" style="margin-bottom:14px">
       <div style="margin-bottom:14px"><div class="ct">Estrutura de Preços por Kit</div><div class="cs">PREÇO DE VENDA, CMV E MARGEM POR PRODUTO</div></div>
-      <table>
-        <thead><tr><th>Produto</th><th>Preço Venda</th><th>CMV Unit.</th><th>Margem Bruta</th><th>Margem %</th><th>Pedidos</th><th>Receita Gerada</th></tr></thead>
+      <div class="tbl-scroll-wrap"><table id="tbl-precificacao">
+        <thead><tr><th>Produto</th><th>Preço Venda</th><th>CMV Unit.</th><th>Margem Bruta</th><th>Margem %</th><th>Pedidos</th><th>Receita Gerada</th><th></th></tr></thead>
         <tbody>
-          <tr><td class="td-date">Kit 1 Frasco</td><td style="font-family:var(--font-mono)">R$247</td><td style="font-family:var(--font-mono)">R$27,38</td><td class="td-lucro">R$219,62</td><td><span class="pill pill-n">88,9%</span></td><td style="font-family:var(--font-mono)">84</td><td class="td-receita">R$20.748</td></tr>
-          <tr><td class="td-date">Kit 3 Frascos</td><td style="font-family:var(--font-mono)">R$597</td><td style="font-family:var(--font-mono)">R$82,14</td><td class="td-lucro">R$514,86</td><td><span class="pill pill-g">86,2%</span></td><td style="font-family:var(--font-mono)">138</td><td class="td-receita">R$82.386</td></tr>
-          <tr><td class="td-date">Kit 6 Frascos</td><td style="font-family:var(--font-mono)">R$997</td><td style="font-family:var(--font-mono)">R$164,28</td><td class="td-lucro">R$832,72</td><td><span class="pill pill-g">83,5%</span></td><td style="font-family:var(--font-mono)">120</td><td class="td-receita">R$119.640</td></tr>
+          <tr><td class="td-date">Kit 1 Frasco</td><td style="font-family:var(--font-mono)">R$247</td><td style="font-family:var(--font-mono)">R$27,38</td><td class="td-lucro">R$219,62</td><td><span class="pill pill-n">88,9%</span></td><td style="font-family:var(--font-mono)">84</td><td class="td-receita">R$20.748</td><td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td></tr>
+          <tr><td class="td-date">Kit 3 Frascos</td><td style="font-family:var(--font-mono)">R$597</td><td style="font-family:var(--font-mono)">R$82,14</td><td class="td-lucro">R$514,86</td><td><span class="pill pill-g">86,2%</span></td><td style="font-family:var(--font-mono)">138</td><td class="td-receita">R$82.386</td><td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td></tr>
+          <tr><td class="td-date">Kit 6 Frascos</td><td style="font-family:var(--font-mono)">R$997</td><td style="font-family:var(--font-mono)">R$164,28</td><td class="td-lucro">R$832,72</td><td><span class="pill pill-g">83,5%</span></td><td style="font-family:var(--font-mono)">120</td><td class="td-receita">R$119.640</td><td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
     <div class="sg">
       <div class="sc"><div class="sl">CMV / Frasco</div><div class="sv">R$27,38</div><div style="font-size:10px;color:var(--text-3);font-family:var(--font-mono)">Custo de produção unit.</div></div>
@@ -1431,10 +1684,10 @@ tbody tr:hover td { background: var(--surface2); }
     </div>
     <div class="tbl-card">
       <div style="margin-bottom:14px"><div class="ct">CMV por Dia</div><div class="cs">CUSTO DE MERCADORIA POR DIA DE OPERAÇÃO</div></div>
-      <div class="cmv-bars" style="padding:4px 0">
-        <div class="cmv-row"><span class="cmv-label">01/05</span><div class="cmv-track"><div class="cmv-fill" style="width:50%;background:linear-gradient(90deg,var(--amber),#FFE17A);box-shadow:0 0 8px rgba(255,201,77,0.3)"></div></div><span class="cmv-val" style="color:var(--amber)">R$8.981</span></div>
-        <div class="cmv-row"><span class="cmv-label">02/05</span><div class="cmv-track"><div class="cmv-fill" style="width:37%;background:linear-gradient(90deg,var(--amber),#FFE17A);box-shadow:0 0 8px rgba(255,201,77,0.3)"></div></div><span class="cmv-val" style="color:var(--amber)">R$6.571</span></div>
-        <div class="cmv-row"><span class="cmv-label">03/05</span><div class="cmv-track"><div class="cmv-fill" style="width:100%;background:linear-gradient(90deg,var(--red),var(--amber));box-shadow:0 0 8px rgba(255,51,102,0.4)"></div></div><span class="cmv-val" style="color:var(--amber)">R$17.797</span></div>
+      <div class="cmv-bars" style="padding:4px 0" id="cmv-bars">
+        <div class="cmv-row"><span class="cmv-label">01/05</span><div class="cmv-track"><div class="cmv-fill" style="width:50%;background:linear-gradient(90deg,var(--amber),#FFE17A);box-shadow:0 0 8px rgba(255,201,77,0.3)"></div></div><span class="cmv-val" style="color:var(--amber)">R$8.981</span><button class="row-edit-btn" onclick="editCmvRow(this)">✏️</button></div>
+        <div class="cmv-row"><span class="cmv-label">02/05</span><div class="cmv-track"><div class="cmv-fill" style="width:37%;background:linear-gradient(90deg,var(--amber),#FFE17A);box-shadow:0 0 8px rgba(255,201,77,0.3)"></div></div><span class="cmv-val" style="color:var(--amber)">R$6.571</span><button class="row-edit-btn" onclick="editCmvRow(this)">✏️</button></div>
+        <div class="cmv-row"><span class="cmv-label">03/05</span><div class="cmv-track"><div class="cmv-fill" style="width:100%;background:linear-gradient(90deg,var(--red),var(--amber));box-shadow:0 0 8px rgba(255,51,102,0.4)"></div></div><span class="cmv-val" style="color:var(--amber)">R$17.797</span><button class="row-edit-btn" onclick="editCmvRow(this)">✏️</button></div>
       </div>
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
         <div style="background:rgba(255,51,102,0.08);border:1px solid rgba(255,51,102,0.2);border-radius:10px;padding:14px 16px;font-size:13px;color:#FF6B8A;line-height:1.7;font-family:var(--font-mono)">
@@ -1456,14 +1709,15 @@ tbody tr:hover td { background: var(--surface2); }
     </div>
     <div class="tbl-card">
       <div style="margin-bottom:14px"><div class="ct">Estrutura de Custos Fixos</div><div class="cs">DESPESAS MENSAIS RECORRENTES IDENTIFICADAS</div></div>
-      <table>
-        <thead><tr><th>Item</th><th>Fornecedor</th><th>Valor/Mês</th><th>Valor/Dia</th><th>Categoria</th><th>Status</th></tr></thead>
+      <div class="tbl-scroll-wrap"><table id="tbl-custos-fixos">
+        <thead><tr><th>Item</th><th>Fornecedor</th><th>Valor/Mês</th><th>Valor/Dia</th><th>Categoria</th><th>Status</th><th></th></tr></thead>
         <tbody>
-          <tr><td class="td-date">Custo Fixo Empresa</td><td style="color:var(--text-2)">—</td><td style="font-weight:700;font-family:var(--font-mono)">R$564</td><td style="font-family:var(--font-mono)">R$18,23</td><td><span class="pill pill-n">Operacional</span></td><td><span class="pill pill-g">Ativo</span></td></tr>
-          <tr><td class="td-date">Hospedainfo</td><td style="color:var(--text-2)">Hospedainfo</td><td style="font-weight:700;font-family:var(--font-mono)">R$49</td><td style="font-family:var(--font-mono)">R$1,63</td><td><span class="pill pill-n">Infra Digital</span></td><td><span class="pill pill-g">Ativo</span></td></tr>
-          <tr style="background:var(--surface2)"><td class="td-date" style="color:var(--text-3)">TOTAL</td><td></td><td style="font-weight:700;color:var(--cyan);font-family:var(--font-mono)">R$613</td><td style="font-weight:700;font-family:var(--font-mono)">R$19,86</td><td></td><td></td></tr>
+          <tr><td class="td-date">Custo Fixo Empresa</td><td style="color:var(--text-2)">—</td><td style="font-weight:700;font-family:var(--font-mono)">R$564</td><td style="font-family:var(--font-mono)">R$18,23</td><td><span class="pill pill-n">Operacional</span></td><td><span class="pill pill-g">Ativo</span></td><td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td></tr>
+          <tr><td class="td-date">Hospedainfo</td><td style="color:var(--text-2)">Hospedainfo</td><td style="font-weight:700;font-family:var(--font-mono)">R$49</td><td style="font-family:var(--font-mono)">R$1,63</td><td><span class="pill pill-n">Infra Digital</span></td><td><span class="pill pill-g">Ativo</span></td><td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td></tr>
+          <tr class="tbl-total-row" style="background:var(--surface2)"><td class="td-date" style="color:var(--text-3)">TOTAL</td><td></td><td class="cf-total-mes" style="font-weight:700;color:var(--cyan);font-family:var(--font-mono)">R$613</td><td class="cf-total-dia" style="font-weight:700;font-family:var(--font-mono)">R$19,86</td><td></td><td></td><td></td></tr>
         </tbody>
-      </table>
+      </table></div>
+      <button class="btn-add-row" onclick="addCustoRow()">＋ Adicionar Custo</button>
     </div>
   </div>
 
@@ -1497,12 +1751,13 @@ tbody tr:hover td { background: var(--surface2); }
         <div><div class="ct">Composição do Investimento</div><div style="font-size:10px;color:var(--text-3);margin-top:2px;font-family:var(--font-mono)">APORTE TOTAL: R$100.000</div></div>
         <div style="text-align:right"><div class="inv-tot">R$49.290</div><div class="inv-tl">INVESTIDO ATÉ O MOMENTO</div></div>
       </div>
-      <div>
-        <div class="irow"><div class="il"><div class="ibar" style="height:38px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)"></div><div><div class="iname">Estoque Inicial (1.000 frascos)</div><div class="isup">Produto · Jah Cosmético</div></div></div><div class="ir"><span class="pill pill-b" style="font-size:11px">55,0%</span><span style="font-family:var(--font-mono);font-weight:700;color:var(--cyan);font-size:14px">R$27.380</span></div></div>
-        <div class="irow"><div class="il"><div class="ibar" style="height:38px;background:var(--violet);box-shadow:0 0 8px var(--violet)"></div><div><div class="iname">Investimento Marketing Inicial</div><div class="isup">Meta Ads · TikTok · Google</div></div></div><div class="ir"><span class="pill pill-v" style="font-size:11px">39,0%</span><span style="font-family:var(--font-mono);font-weight:700;color:var(--violet);font-size:14px">R$19.000</span></div></div>
-        <div class="irow"><div class="il"><div class="ibar" style="height:28px;background:var(--amber);box-shadow:0 0 6px var(--amber)"></div><div><div class="iname">Infraestrutura Digital</div><div class="isup">Hospedagem · Ferramentas · Domínio</div></div></div><div class="ir"><span class="pill pill-a" style="font-size:11px">4,2%</span><span style="font-family:var(--font-mono);font-weight:700;color:var(--amber);font-size:14px">R$2.058</span></div></div>
-        <div class="irow"><div class="il"><div class="ibar" style="height:24px;background:var(--green);box-shadow:0 0 6px var(--green)"></div><div><div class="iname">Reserva Operacional</div><div class="isup">Disponível em caixa</div></div></div><div class="ir"><span class="pill pill-g" style="font-size:11px">50,7%</span><span style="font-family:var(--font-mono);font-weight:700;color:var(--green);font-size:14px">R$50.710</span></div></div>
+      <div id="inv-rows">
+        <div class="irow"><div class="il"><div class="ibar" style="height:38px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)"></div><div><div class="iname">Estoque Inicial (1.000 frascos)</div><div class="isup">Produto · Jah Cosmético</div></div></div><div class="irow-actions"><span style="font-family:var(--font-mono);font-weight:700;color:var(--cyan);font-size:14px">R$27.380</span><button class="row-edit-btn" onclick="editIrow(this)">✏️</button></div></div>
+        <div class="irow"><div class="il"><div class="ibar" style="height:38px;background:var(--violet);box-shadow:0 0 8px var(--violet)"></div><div><div class="iname">Investimento Marketing Inicial</div><div class="isup">Meta Ads · TikTok · Google</div></div></div><div class="irow-actions"><span style="font-family:var(--font-mono);font-weight:700;color:var(--violet);font-size:14px">R$19.000</span><button class="row-edit-btn" onclick="editIrow(this)">✏️</button></div></div>
+        <div class="irow"><div class="il"><div class="ibar" style="height:28px;background:var(--amber);box-shadow:0 0 6px var(--amber)"></div><div><div class="iname">Infraestrutura Digital</div><div class="isup">Hospedagem · Ferramentas · Domínio</div></div></div><div class="irow-actions"><span style="font-family:var(--font-mono);font-weight:700;color:var(--amber);font-size:14px">R$2.058</span><button class="row-edit-btn" onclick="editIrow(this)">✏️</button></div></div>
+        <div class="irow"><div class="il"><div class="ibar" style="height:24px;background:var(--green);box-shadow:0 0 6px var(--green)"></div><div><div class="iname">Reserva Operacional</div><div class="isup">Disponível em caixa</div></div></div><div class="irow-actions"><span style="font-family:var(--font-mono);font-weight:700;color:var(--green);font-size:14px">R$50.710</span><button class="row-edit-btn" onclick="editIrow(this)">✏️</button></div></div>
       </div>
+      <button class="btn-add-row" onclick="addInvRow()">＋ Adicionar Investimento</button>
     </div>
     <div class="sg">
       <div class="sc"><div class="sl">Aporte Total</div><div class="sv" style="color:var(--cyan)">R$100.000</div><div style="font-size:10px;color:var(--text-3);font-family:var(--font-mono)">Capital inicial</div></div>
@@ -1548,6 +1803,203 @@ function go(id, el) {
   document.getElementById('pg-title').textContent = info.title || id;
   document.getElementById('pg-sub').textContent   = info.sub || '';
   window.scrollTo(0, 0);
+}
+
+// ── SIDEBAR TOGGLE (mobile) ──
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('open');
+  document.querySelector('.sb-overlay').classList.toggle('show');
+}
+
+// ── INLINE EDITING: TABLE ROWS ──
+function editRow(btn) {
+  const tr = btn.closest('tr');
+  if (tr.classList.contains('editing')) return;
+  tr.classList.add('editing');
+
+  // Save original HTML of each editable cell (all except last action cell)
+  const cells = tr.querySelectorAll('td:not(.td-actions)');
+  const originals = [];
+  cells.forEach((td, i) => {
+    originals.push(td.innerHTML);
+    // Cells with pill content: wrap the text — only edit plain text cells
+    const txt = td.innerText.trim();
+    td.innerHTML = '<input class="edit-input" value="' + txt.replace(/"/g, '&quot;') + '">';
+  });
+
+  // Replace edit button with save/cancel
+  const actionCell = tr.querySelector('.td-actions');
+  actionCell.innerHTML =
+    '<button class="row-save-btn" title="Salvar">✓</button>' +
+    '<button class="row-cancel-btn" title="Cancelar">✗</button>';
+
+  actionCell.querySelector('.row-save-btn').onclick = function() {
+    cells.forEach((td) => {
+      const input = td.querySelector('input');
+      if (input) td.innerHTML = input.value;
+    });
+    actionCell.innerHTML = '<button class="row-edit-btn" onclick="editRow(this)">✏️</button>';
+    tr.classList.remove('editing');
+    recalcCustos();
+  };
+  actionCell.querySelector('.row-cancel-btn').onclick = function() {
+    cells.forEach((td, i) => { td.innerHTML = originals[i]; });
+    actionCell.innerHTML = '<button class="row-edit-btn" onclick="editRow(this)">✏️</button>';
+    tr.classList.remove('editing');
+  };
+}
+
+// Recalculate Custos Fixos total row
+function recalcCustos() {
+  const tbl = document.getElementById('tbl-custos-fixos');
+  if (!tbl) return;
+  const rows = tbl.querySelectorAll('tbody tr:not(.tbl-total-row)');
+  let totalMes = 0, totalDia = 0;
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    if (cells.length >= 4) {
+      const mes = parseFloat((cells[2].innerText || '').replace(/[^0-9.,]/g,'').replace(',','.')) || 0;
+      const dia = parseFloat((cells[3].innerText || '').replace(/[^0-9.,]/g,'').replace(',','.')) || 0;
+      totalMes += mes;
+      totalDia += dia;
+    }
+  });
+  const totMesEl = tbl.querySelector('.cf-total-mes');
+  const totDiaEl = tbl.querySelector('.cf-total-dia');
+  if (totMesEl) totMesEl.textContent = 'R$' + totalMes.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  if (totDiaEl) totDiaEl.textContent = 'R$' + totalDia.toFixed(2).replace('.',',');
+}
+
+// ── ADD ROW: CUSTOS FIXOS ──
+function addCustoRow() {
+  const tbl = document.getElementById('tbl-custos-fixos');
+  const tbody = tbl.querySelector('tbody');
+  const totalRow = tbody.querySelector('.tbl-total-row');
+  const newRow = document.createElement('tr');
+  newRow.innerHTML =
+    '<td class="td-date">Novo Item</td>' +
+    '<td style="color:var(--text-2)">—</td>' +
+    '<td style="font-weight:700;font-family:var(--font-mono)">R$0</td>' +
+    '<td style="font-family:var(--font-mono)">R$0,00</td>' +
+    '<td><span class="pill pill-n">—</span></td>' +
+    '<td><span class="pill pill-g">Ativo</span></td>' +
+    '<td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td>';
+  tbody.insertBefore(newRow, totalRow);
+  // auto-open edit
+  editRow(newRow.querySelector('.row-edit-btn'));
+}
+
+// ── INLINE EDITING: CMV BARS ──
+function editCmvRow(btn) {
+  const row = btn.closest('.cmv-row');
+  if (row.classList.contains('editing')) return;
+  row.classList.add('editing');
+
+  const valSpan = row.querySelector('.cmv-val');
+  const labelSpan = row.querySelector('.cmv-label');
+  const origVal = valSpan.textContent.trim();
+  const origLabel = labelSpan.textContent.trim();
+
+  valSpan.innerHTML = '<input class="edit-input" value="' + origVal.replace(/"/g,'&quot;') + '" style="width:80px">';
+  labelSpan.innerHTML = '<input class="edit-input" value="' + origLabel.replace(/"/g,'&quot;') + '" style="width:44px">';
+
+  btn.style.display = 'none';
+
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'row-save-btn';
+  saveBtn.title = 'Salvar';
+  saveBtn.textContent = '✓';
+  const cancelBtn = document.createElement('button');
+  cancelBtn.className = 'row-cancel-btn';
+  cancelBtn.title = 'Cancelar';
+  cancelBtn.textContent = '✗';
+  row.appendChild(saveBtn);
+  row.appendChild(cancelBtn);
+
+  saveBtn.onclick = function() {
+    const newVal = valSpan.querySelector('input').value;
+    const newLabel = labelSpan.querySelector('input').value;
+    valSpan.textContent = newVal;
+    labelSpan.textContent = newLabel;
+    saveBtn.remove(); cancelBtn.remove();
+    btn.style.display = '';
+    row.classList.remove('editing');
+  };
+  cancelBtn.onclick = function() {
+    valSpan.textContent = origVal;
+    labelSpan.textContent = origLabel;
+    saveBtn.remove(); cancelBtn.remove();
+    btn.style.display = '';
+    row.classList.remove('editing');
+  };
+}
+
+// ── INLINE EDITING: IROW (Investimento) ──
+function editIrow(btn) {
+  const row = btn.closest('.irow');
+  if (row.classList.contains('editing')) return;
+  row.classList.add('editing');
+
+  const nameEl = row.querySelector('.iname');
+  const supEl  = row.querySelector('.isup');
+  const actionsDiv = row.querySelector('.irow-actions');
+  const costSpan = actionsDiv.querySelector('span');
+
+  const origName = nameEl.textContent.trim();
+  const origSup  = supEl.textContent.trim();
+  const origCost = costSpan.textContent.trim();
+
+  nameEl.innerHTML = '<input class="edit-input" value="' + origName.replace(/"/g,'&quot;') + '">';
+  supEl.innerHTML  = '<input class="edit-input" value="' + origSup.replace(/"/g,'&quot;') + '" style="font-size:10px">';
+  costSpan.innerHTML = '<input class="edit-input" value="' + origCost.replace(/"/g,'&quot;') + '" style="width:80px;font-weight:700">';
+
+  btn.style.display = 'none';
+
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'row-save-btn';
+  saveBtn.title = 'Salvar';
+  saveBtn.textContent = '✓';
+  const cancelBtn = document.createElement('button');
+  cancelBtn.className = 'row-cancel-btn';
+  cancelBtn.title = 'Cancelar';
+  cancelBtn.textContent = '✗';
+  actionsDiv.appendChild(saveBtn);
+  actionsDiv.appendChild(cancelBtn);
+
+  saveBtn.onclick = function() {
+    nameEl.textContent = nameEl.querySelector('input').value;
+    supEl.textContent  = supEl.querySelector('input').value;
+    costSpan.textContent = costSpan.querySelector('input').value;
+    saveBtn.remove(); cancelBtn.remove();
+    btn.style.display = '';
+    row.classList.remove('editing');
+  };
+  cancelBtn.onclick = function() {
+    nameEl.textContent = origName;
+    supEl.textContent  = origSup;
+    costSpan.textContent = origCost;
+    saveBtn.remove(); cancelBtn.remove();
+    btn.style.display = '';
+    row.classList.remove('editing');
+  };
+}
+
+// ── ADD ROW: INVESTIMENTO ──
+function addInvRow() {
+  const container = document.getElementById('inv-rows');
+  const newRow = document.createElement('div');
+  newRow.className = 'irow';
+  newRow.innerHTML =
+    '<div class="il">' +
+      '<div class="ibar" style="height:30px;background:var(--cyan);box-shadow:0 0 6px var(--cyan)"></div>' +
+      '<div><div class="iname">Novo Item</div><div class="isup">Descrição</div></div>' +
+    '</div>' +
+    '<div class="irow-actions">' +
+      '<span style="font-family:var(--font-mono);font-weight:700;color:var(--cyan);font-size:14px">R$0</span>' +
+      '<button class="row-edit-btn" onclick="editIrow(this)">✏️</button>' +
+    '</div>';
+  container.appendChild(newRow);
+  editIrow(newRow.querySelector('.row-edit-btn'));
 }
 
 // ── TOOLTIP ──

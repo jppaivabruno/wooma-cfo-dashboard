@@ -840,6 +840,7 @@ body.light .icon-sun  { display: block; }
 
 /* ── KPI GRID ── */
 .kg { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.kg-3 { grid-template-columns: repeat(3,1fr); }
 
 .kc {
   background: var(--surface);
@@ -1353,7 +1354,7 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   .gap { height: 20px; }
 
   /* Grids: 1 coluna no mobile */
-  .kg { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .kg, .kg-3 { grid-template-columns: 1fr 1fr; gap: 8px; }
   .sg { grid-template-columns: 1fr 1fr; gap: 8px; }
   .cg { grid-template-columns: 1fr; }
   .be-grid { grid-template-columns: 1fr; }
@@ -1501,61 +1502,47 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   <div class="page active" id="pg-overview">
 
     <div class="slabel">Indicadores Principais</div>
-    <div class="kg">
-      <div class="kc ac-green">
+    <div class="kg kg-3">
+      <div class="kc">
         <div class="kc-top">
           <div>
             <div class="klabel">Receita Total</div>
             <div class="kval c-green">R$408.542</div>
           </div>
-          <div class="kc-icon" style="border-color:rgba(0,255,148,0.2)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="#00FF94" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <div class="kc-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
           </div>
         </div>
         <span class="pill pill-g">▲ 40,9% da meta</span>
-        <div class="kbar" style="margin-top:10px"><div class="kbar-fill" style="width:40.9%;background:linear-gradient(90deg,#00FF94,#00E5FF);box-shadow:0 0 8px rgba(0,255,148,0.5)"></div></div>
+        <div class="kbar" style="margin-top:10px"><div class="kbar-fill" style="width:40.9%;background:linear-gradient(90deg,var(--green),var(--cyan));"></div></div>
       </div>
 
-      <div class="kc ac-red">
+      <div class="kc">
         <div class="kc-top">
           <div>
             <div class="klabel">Despesas Totais</div>
             <div class="kval c-red">R$271.629</div>
           </div>
-          <div class="kc-icon" style="border-color:rgba(255,51,102,0.2)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 12H18L15 21L9 3L6 12H2" stroke="#FF3366" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="kc-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 12H18L15 21L9 3L6 12H2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
         </div>
         <span class="pill pill-n">Mkt · Log · CMV · Taxas</span>
-        <div class="kbar" style="margin-top:10px"><div class="kbar-fill" style="width:66.5%;background:linear-gradient(90deg,#FF3366,#FF6B8A);box-shadow:0 0 8px rgba(255,51,102,0.5)"></div></div>
+        <div class="kbar" style="margin-top:10px"><div class="kbar-fill" style="width:66.5%;background:linear-gradient(90deg,var(--red),#FF6B8A);"></div></div>
       </div>
 
-      <div class="kc ac-blue">
+      <div class="kc">
         <div class="kc-top">
           <div>
             <div class="klabel">Fluxo de Caixa</div>
             <div class="kval c-blue">R$50.661</div>
           </div>
-          <div class="kc-icon" style="border-color:rgba(61,158,255,0.2)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2.5" stroke="#3D9EFF" stroke-width="2"/><path d="M2 10h20" stroke="#3D9EFF" stroke-width="2"/><circle cx="7" cy="15" r="1.2" fill="#3D9EFF"/></svg>
+          <div class="kc-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M2 10h20" stroke="currentColor" stroke-width="2"/><circle cx="7" cy="15" r="1.2" fill="currentColor"/></svg>
           </div>
         </div>
         <span class="pill pill-g">▲ Saldo positivo</span>
-        <div class="kbar" style="margin-top:10px"><div class="kbar-fill" style="width:50.7%;background:linear-gradient(90deg,#3D9EFF,#60A5FA);box-shadow:0 0 8px rgba(61,158,255,0.5)"></div></div>
-      </div>
-
-      <div class="kc ac-amber">
-        <div class="kc-top">
-          <div>
-            <div class="klabel">Investimento Inicial</div>
-            <div class="kval c-amber">R$49.290</div>
-          </div>
-          <div class="kc-icon" style="border-color:rgba(255,201,77,0.2)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 22V12M8 16l4-4 4 4" stroke="#FFC94D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" stroke="#FFC94D" stroke-width="2" stroke-linecap="round"/></svg>
-          </div>
-        </div>
-        <span class="pill pill-a">Aporte: R$100k</span>
-        <div class="kbar" style="margin-top:10px"><div class="kbar-fill" style="width:49.3%;background:linear-gradient(90deg,#FFC94D,#FFE17A);box-shadow:0 0 8px rgba(255,201,77,0.5)"></div></div>
+        <div class="kbar" style="margin-top:10px"><div class="kbar-fill" style="width:50.7%;background:linear-gradient(90deg,var(--blue),#60A5FA);"></div></div>
       </div>
     </div>
 
@@ -1803,10 +1790,10 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   <div class="page" id="pg-fin-diario">
     <div class="banner">// <b>FINANCEIRO DIÁRIO</b> · Google Sheets · Live Sync</div>
     <div class="kg" style="margin-bottom:14px">
-      <div class="kc ac-green"><div class="kc-top"><div><div class="klabel">Receita Acumulada</div><div class="kval c-green" style="font-size:22px">R$408.542</div></div><div class="kc-icon" style="border-color:rgba(0,255,148,0.2)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="#00FF94" stroke-width="2.2" stroke-linecap="round"/></svg></div></div><span class="pill pill-v">3 dias · Maio 2026</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Receita Acumulada</div><div class="kval c-green" style="font-size:22px">R$408.542</div></div><div class="kc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></div></div><span class="pill pill-v">3 dias · Maio 2026</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Total Pedidos</div><div class="kval" style="font-size:22px">342</div></div><div class="kc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="rgba(232,232,240,0.5)" stroke-width="2"/><line x1="3" y1="6" x2="21" y2="6" stroke="rgba(232,232,240,0.5)" stroke-width="2"/></svg></div></div><span class="pill pill-n">01/05 a 03/05</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Frascos Expedidos</div><div class="kval" style="font-size:22px">1.218</div></div><div class="kc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="rgba(232,232,240,0.5)" stroke-width="2"/></svg></div></div><span class="pill pill-r">⚠ Acima do estoque</span></div>
-      <div class="kc ac-blue"><div class="kc-top"><div><div class="klabel">Lucro Total</div><div class="kval c-cyan" style="font-size:22px">R$133.480</div></div><div class="kc-icon" style="border-color:rgba(0,229,255,0.2)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" stroke="#00E5FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><span class="pill pill-g">▲ Margem 27,3%</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Lucro Total</div><div class="kval c-cyan" style="font-size:22px">R$133.480</div></div><div class="kc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><span class="pill pill-g">▲ Margem 27,3%</span></div>
     </div>
     <div class="tbl-card">
       <div style="margin-bottom:14px"><div class="ct">Detalhamento por Dia</div><div class="cs">RECEITA, CUSTOS, LUCRO E INDICADORES DIÁRIOS</div></div>

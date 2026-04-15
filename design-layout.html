@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WOOMA Dashboard — Design Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0f0509;
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #f2ecef;
+    padding: 24px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(244,5,53,0.15);
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .logo-mark {
+    width: 42px; height: 42px;
+    background: #f40535;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; color: white;
+    letter-spacing: -1px;
+  }
+  .header-title { font-size: 20px; font-weight: 800; color: #f2ecef; }
+  .header-subtitle { font-size: 12px; color: rgba(242,236,239,0.5); margin-top: 2px; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .month-badge {
+    background: rgba(244,5,53,0.12);
+    border: 1px solid rgba(244,5,53,0.3);
+    color: #f40535;
+    font-size: 12px; font-weight: 700;
+    padding: 6px 14px; border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+  .sync-badge {
+    background: rgba(242,236,239,0.05);
+    border: 1px solid rgba(242,236,239,0.1);
+    color: rgba(242,236,239,0.4);
+    font-size: 11px; padding: 6px 12px; border-radius: 20px;
+  }
+  .sync-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: #22c55e; border-radius: 50%;
+    margin-right: 5px; animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    color: rgba(242,236,239,0.35); text-transform: uppercase;
+    margin-bottom: 12px; margin-top: 24px;
+  }
+
+  /* ── KPI CARDS ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 4px;
+  }
+  .kpi-card {
+    background: linear-gradient(145deg, #1a0a0e, #140608);
+    border: 1px solid rgba(244,5,53,0.12);
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .kpi-card.highlight {
+    border-color: rgba(244,5,53,0.35);
+    background: linear-gradient(145deg, #200c12, #1a0a0e);
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #f40535, transparent);
+    opacity: 0;
+  }
+  .kpi-card.highlight::before { opacity: 1; }
+  .kpi-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+    color: rgba(242,236,239,0.4); text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .kpi-icon { font-size: 12px; }
+  .kpi-value {
+    font-size: 26px; font-weight: 900;
+    color: #f2ecef; letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .kpi-value.red { color: #f40535; }
+  .kpi-sub {
+    font-size: 11px; color: rgba(242,236,239,0.4);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .badge-up { color: #22c55e; font-size: 10px; font-weight: 700; }
+  .badge-down { color: #f40535; font-size: 10px; font-weight: 700; }
+  .badge-neutral { color: rgba(242,236,239,0.4); font-size: 10px; }
+
+  /* ── META PROGRESS SECTION ── */
+  .meta-section {
+    background: linear-gradient(145deg, #1a0a0e, #140608);
+    border: 1px solid rgba(244,5,53,0.2);
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 4px;
+  }
+  .meta-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .meta-title { font-size: 14px; font-weight: 700; color: #f2ecef; }
+  .meta-month { font-size: 11px; color: rgba(242,236,239,0.4); margin-top: 2px; }
+  .meta-percent {
+    font-size: 28px; font-weight: 900; color: #f40535;
+    text-align: right;
+  }
+  .meta-percent-sub { font-size: 11px; color: rgba(242,236,239,0.4); text-align: right; }
+  .progress-bar-bg {
+    background: rgba(244,5,53,0.1);
+    border-radius: 100px; height: 8px;
+    margin-bottom: 16px; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%; border-radius: 100px;
+    background: linear-gradient(90deg, #f40535, #ff6b8a);
+    width: 40.9%;
+    box-shadow: 0 0 12px rgba(244,5,53,0.5);
+  }
+  .meta-breakdown {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .meta-item {
+    background: rgba(244,5,53,0.06);
+    border: 1px solid rgba(244,5,53,0.1);
+    border-radius: 10px; padding: 12px 14px;
+  }
+  .meta-item-label { font-size: 10px; color: rgba(242,236,239,0.4); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .meta-item-value { font-size: 16px; font-weight: 800; color: #f2ecef; }
+  .meta-item-sub { font-size: 10px; color: rgba(242,236,239,0.35); margin-top: 2px; }
+
+  /* ── CHARTS GRID ── */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 14px;
+    margin-bottom: 4px;
+  }
+  .chart-card {
+    background: linear-gradient(145deg, #1a0a0e, #140608);
+    border: 1px solid rgba(244,5,53,0.12);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .chart-title { font-size: 13px; font-weight: 700; color: #f2ecef; margin-bottom: 4px; }
+  .chart-sub { font-size: 11px; color: rgba(242,236,239,0.35); margin-bottom: 16px; }
+
+  /* Bar chart mock */
+  .bar-chart {
+    display: flex; align-items: flex-end; gap: 8px;
+    height: 100px; padding-bottom: 4px;
+  }
+  .bar-group { display: flex; gap: 2px; align-items: flex-end; flex: 1; }
+  .bar { border-radius: 4px 4px 0 0; min-width: 10px; }
+  .bar-receita { background: #f40535; }
+  .bar-despesa { background: rgba(244,5,53,0.3); }
+  .bar-lucro { background: rgba(242,236,239,0.15); }
+  .bar-label { font-size: 9px; color: rgba(242,236,239,0.3); text-align: center; margin-top: 6px; }
+
+  /* Donut mock */
+  .donut-wrap {
+    display: flex; align-items: center; gap: 16px; padding: 4px 0;
+  }
+  .donut {
+    width: 80px; height: 80px; border-radius: 50%; flex-shrink: 0;
+    background: conic-gradient(
+      #f40535 0deg 84deg,
+      #ff6b8a 84deg 200deg,
+      rgba(244,5,53,0.2) 200deg 360deg
+    );
+    position: relative;
+  }
+  .donut::after {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    background: #140608;
+    border-radius: 50%;
+  }
+  .donut-legend { flex: 1; }
+  .legend-item {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 8px; font-size: 11px; color: rgba(242,236,239,0.6);
+  }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── SECONDARY KPIs ── */
+  .secondary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 4px;
+  }
+  .secondary-card {
+    background: linear-gradient(145deg, #1a0a0e, #140608);
+    border: 1px solid rgba(244,5,53,0.08);
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .sec-label { font-size: 10px; color: rgba(242,236,239,0.35); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .sec-value { font-size: 20px; font-weight: 800; color: #f2ecef; margin-bottom: 4px; }
+  .sec-meta {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 10px; color: rgba(242,236,239,0.35);
+  }
+  .roas-ok { color: #f40535; font-weight: 700; }
+  .roas-warn { color: #f59e0b; font-weight: 700; }
+
+  /* ROAS progress */
+  .roas-bar-bg {
+    background: rgba(244,5,53,0.1); border-radius: 4px; height: 4px; margin-top: 6px;
+  }
+  .roas-bar-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, #f40535, #ff6b8a);
+  }
+
+  /* ── INVESTMENT SECTION ── */
+  .investment-card {
+    background: linear-gradient(145deg, #1a0a0e, #140608);
+    border: 1px solid rgba(244,5,53,0.12);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .inv-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .inv-total {
+    font-size: 22px; font-weight: 900; color: #f40535;
+  }
+  .inv-total-label { font-size: 10px; color: rgba(242,236,239,0.35); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .inv-list { display: flex; flex-direction: column; gap: 8px; }
+  .inv-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(244,5,53,0.05);
+    border: 1px solid rgba(244,5,53,0.08);
+    border-radius: 8px;
+  }
+  .inv-item-left { display: flex; align-items: center; gap: 10px; }
+  .inv-dot { width: 6px; height: 6px; background: #f40535; border-radius: 50%; flex-shrink: 0; }
+  .inv-name { font-size: 12px; color: rgba(242,236,239,0.7); }
+  .inv-supplier { font-size: 10px; color: rgba(242,236,239,0.3); }
+  .inv-cost { font-size: 13px; font-weight: 700; color: #f2ecef; }
+
+  /* annotation labels */
+  .annotation {
+    background: rgba(244,5,53,0.15);
+    border: 1px dashed rgba(244,5,53,0.4);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 10px;
+    color: rgba(244,5,53,0.8);
+    display: inline-block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo-mark">W</div>
+    <div>
+      <div class="header-title">Dashboard Financeiro</div>
+      <div class="header-subtitle">Wooma — Dados em tempo real</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="sync-badge"><span class="sync-dot"></span>Sincronizado agora</span>
+    <span class="month-badge">Maio 2026</span>
+  </div>
+</div>
+
+<!-- ══ SEÇÃO 1: KPI CARDS ══ -->
+<div class="annotation">① KPIs Principais</div>
+<div class="kpi-grid">
+  <div class="kpi-card highlight">
+    <div class="kpi-label"><span class="kpi-icon">💰</span> Receita Total</div>
+    <div class="kpi-value">R$ 408.542</div>
+    <div class="kpi-sub"><span class="badge-up">▲ 40,9%</span> da meta de R$ 1M</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label"><span class="kpi-icon">📉</span> Despesas Totais</div>
+    <div class="kpi-value">R$ 271.629</div>
+    <div class="kpi-sub"><span class="badge-neutral">Marketing + Logística + CMV + Taxas</span></div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label"><span class="kpi-icon">💵</span> Fluxo de Caixa</div>
+    <div class="kpi-value">R$ 50.661</div>
+    <div class="kpi-sub"><span class="badge-up">▲ Saldo atual</span> após movimentações</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label"><span class="kpi-icon">🏗️</span> Investimento Inicial</div>
+    <div class="kpi-value red">R$ 49.290</div>
+    <div class="kpi-sub"><span class="badge-neutral">Aporte: R$ 100k · Saldo: R$ 50,7k</span></div>
+  </div>
+</div>
+
+<!-- ══ SEÇÃO 2: META MENSAL + BREAKDOWN ══ -->
+<div class="section-label" style="margin-top:28px;">Seção ② — Meta Mensal & Ritmo Necessário</div>
+<div class="annotation">② Meta & Ritmo Diário / Semanal</div>
+<div class="meta-section">
+  <div class="meta-header">
+    <div>
+      <div class="meta-title">Meta de Receita — Maio 2026</div>
+      <div class="meta-month">R$ 408.542 faturados de R$ 1.000.000 meta</div>
+    </div>
+    <div>
+      <div class="meta-percent">40,9%</div>
+      <div class="meta-percent-sub">atingido</div>
+    </div>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill"></div>
+  </div>
+  <div class="meta-breakdown">
+    <div class="meta-item">
+      <div class="meta-item-label">Falta atingir</div>
+      <div class="meta-item-value">R$ 591.458</div>
+      <div class="meta-item-sub">para fechar a meta do mês</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-item-label">Necessário por dia</div>
+      <div class="meta-item-value" style="color:#f40535;">R$ 21.127</div>
+      <div class="meta-item-sub">28 dias restantes</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-item-label">Necessário por semana</div>
+      <div class="meta-item-value" style="color:#f40535;">R$ 147.864</div>
+      <div class="meta-item-sub">4 semanas restantes</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SEÇÃO 3: GRÁFICOS ══ -->
+<div class="section-label" style="margin-top:28px;">Seção ③ — Gráficos de Performance</div>
+<div class="annotation">③ Gráficos: Receita vs Despesa + Mix de Vendas</div>
+<div class="charts-grid">
+
+  <!-- Bar Chart -->
+  <div class="chart-card">
+    <div class="chart-title">Receita × Despesa × Lucro por Dia</div>
+    <div class="chart-sub">Maio 2026 — barras agrupadas por dia</div>
+    <div class="bar-chart">
+      <div style="flex:1">
+        <div class="bar-group">
+          <div class="bar bar-receita" style="height:30px"></div>
+          <div class="bar bar-despesa" style="height:18px"></div>
+          <div class="bar bar-lucro" style="height:8px"></div>
+        </div>
+        <div class="bar-label">01/05</div>
+      </div>
+      <div style="flex:1">
+        <div class="bar-group">
+          <div class="bar bar-receita" style="height:20px"></div>
+          <div class="bar bar-despesa" style="height:10px"></div>
+          <div class="bar bar-lucro" style="height:12px"></div>
+        </div>
+        <div class="bar-label">02/05</div>
+      </div>
+      <div style="flex:1">
+        <div class="bar-group">
+          <div class="bar bar-receita" style="height:90px"></div>
+          <div class="bar bar-despesa" style="height:60px"></div>
+          <div class="bar bar-lucro" style="height:70px"></div>
+        </div>
+        <div class="bar-label">03/05</div>
+      </div>
+      <div style="flex:1;opacity:0.15">
+        <div class="bar-group">
+          <div class="bar bar-receita" style="height:4px;background:rgba(242,236,239,0.2)"></div>
+        </div>
+        <div class="bar-label">04/05</div>
+      </div>
+      <div style="flex:1;opacity:0.15">
+        <div class="bar-group">
+          <div class="bar" style="height:4px;background:rgba(242,236,239,0.1)"></div>
+        </div>
+        <div class="bar-label">05/05</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;padding-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:8px;height:8px;background:#f40535;border-radius:2px"></div><span style="font-size:9px;color:rgba(242,236,239,0.5)">Receita</span></div>
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:8px;height:8px;background:rgba(244,5,53,0.3);border-radius:2px"></div><span style="font-size:9px;color:rgba(242,236,239,0.5)">Despesa</span></div>
+        <div style="display:flex;align-items:center;gap:5px"><div style="width:8px;height:8px;background:rgba(242,236,239,0.15);border-radius:2px"></div><span style="font-size:9px;color:rgba(242,236,239,0.5)">Lucro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Donut Chart -->
+  <div class="chart-card">
+    <div class="chart-title">Mix de Vendas</div>
+    <div class="chart-sub">Por kit — 1, 3 ou 6 frascos</div>
+    <div class="donut-wrap">
+      <div class="donut"></div>
+      <div class="donut-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#f40535"></div>1 Frasco — 26%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ff6b8a"></div>3 Frascos — 43%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(244,5,53,0.25)"></div>6 Frascos — 31%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SEÇÃO 4: KPIs SECUNDÁRIOS ══ -->
+<div class="section-label" style="margin-top:28px;">Seção ④ — KPIs Operacionais</div>
+<div class="annotation">④ ROAS, CAC, Ticket Médio, Margem</div>
+<div class="secondary-grid">
+  <div class="secondary-card">
+    <div class="sec-label">ROAS Médio</div>
+    <div class="sec-value" style="color:#f59e0b;">2,30×</div>
+    <div class="sec-meta"><span class="roas-ok">▲ Acima</span> da meta de 2,0×</div>
+    <div class="roas-bar-bg"><div class="roas-bar-fill" style="width:75%"></div></div>
+  </div>
+  <div class="secondary-card">
+    <div class="sec-label">CAC Médio</div>
+    <div class="sec-value">R$ 431</div>
+    <div class="sec-meta">Custo por cliente adquirido</div>
+  </div>
+  <div class="secondary-card">
+    <div class="sec-label">Ticket Médio</div>
+    <div class="sec-value">R$ 949</div>
+    <div class="sec-meta">Média por pedido</div>
+  </div>
+  <div class="secondary-card">
+    <div class="sec-label">Margem de Lucro</div>
+    <div class="sec-value" style="color:#22c55e;">27,3%</div>
+    <div class="sec-meta"><span style="color:#22c55e;font-weight:700;">▲ Saudável</span></div>
+  </div>
+</div>
+
+<!-- ══ SEÇÃO 5: INVESTIMENTO INICIAL ══ -->
+<div class="section-label" style="margin-top:28px;">Seção ⑤ — Investimento Inicial</div>
+<div class="annotation">⑤ Breakdown do Investimento Inicial</div>
+<div class="investment-card">
+  <div class="inv-header">
+    <div>
+      <div class="chart-title">Investimento Inicial da Marca</div>
+      <div class="chart-sub">Aportes realizados antes do lançamento · 6 itens</div>
+    </div>
+    <div style="text-align:right">
+      <div class="inv-total">R$ 49.290</div>
+      <div class="inv-total-label">Total investido</div>
+    </div>
+  </div>
+  <div class="inv-list">
+    <div class="inv-item">
+      <div class="inv-item-left">
+        <div class="inv-dot"></div>
+        <div>
+          <div class="inv-name">Desenvolvimento da Fórmula</div>
+          <div class="inv-supplier">Jah Cosmético</div>
+        </div>
+      </div>
+      <div class="inv-cost">R$ 20.390</div>
+    </div>
+    <div class="inv-item">
+      <div class="inv-item-left">
+        <div class="inv-dot" style="background:rgba(244,5,53,0.5)"></div>
+        <div>
+          <div class="inv-name">Fabricação 1.000 unidades</div>
+          <div class="inv-supplier">Jah Cosmético</div>
+        </div>
+      </div>
+      <div class="inv-cost">R$ 17.900</div>
+    </div>
+    <div class="inv-item">
+      <div class="inv-item-left">
+        <div class="inv-dot" style="background:rgba(244,5,53,0.4)"></div>
+        <div>
+          <div class="inv-name">Branding</div>
+          <div class="inv-supplier">Allcateia</div>
+        </div>
+      </div>
+      <div class="inv-cost">R$ 3.500</div>
+    </div>
+    <div class="inv-item">
+      <div class="inv-item-left">
+        <div class="inv-dot" style="background:rgba(244,5,53,0.3)"></div>
+        <div>
+          <div class="inv-name">Página de Vendas</div>
+          <div class="inv-supplier">Luan Montenegro</div>
+        </div>
+      </div>
+      <div class="inv-cost">R$ 3.000</div>
+    </div>
+    <div class="inv-item">
+      <div class="inv-item-left">
+        <div class="inv-dot" style="background:rgba(244,5,53,0.2)"></div>
+        <div>
+          <div class="inv-name">Registro de Marca</div>
+          <div class="inv-supplier">Kleysller</div>
+        </div>
+      </div>
+      <div class="inv-cost">R$ 3.000</div>
+    </div>
+    <div class="inv-item">
+      <div class="inv-item-left">
+        <div class="inv-dot" style="background:rgba(244,5,53,0.15)"></div>
+        <div>
+          <div class="inv-name">Abertura CNPJ</div>
+          <div class="inv-supplier">Gesttor (Alexandre)</div>
+        </div>
+      </div>
+      <div class="inv-cost">R$ 1.500</div>
+    </div>
+  </div>
+</div>
+
+<div style="height:32px"></div>
+
+</body>
+</html>

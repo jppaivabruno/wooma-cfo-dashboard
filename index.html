@@ -1521,9 +1521,158 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   body.sb-collapsed .sidebar { width: var(--sidebar) !important; }
   body.sb-collapsed .wrap    { margin-left: 0 !important; }
 }
+
+/* ── AUTH / LOGIN ── */
+#login-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  background-image: radial-gradient(circle, rgba(140,148,255,0.07) 1px, transparent 1px);
+  background-size: 26px 26px;
+  display: flex; align-items: center; justify-content: center;
+}
+body.light #login-screen {
+  background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+#auth-box {
+  width: 100%; max-width: 380px; margin: 16px;
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 20px; padding: 36px 32px;
+}
+.auth-logo {
+  font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800;
+  letter-spacing: -.5px; color: var(--cyan); margin-bottom: 4px;
+}
+.auth-sub {
+  font-size: 10px; letter-spacing: .12em; color: var(--text-3);
+  margin-bottom: 30px; font-weight: 500;
+}
+#auth-box label {
+  display: block; font-size: 10px; letter-spacing: .08em;
+  color: var(--text-3); font-weight: 600; margin-bottom: 6px;
+}
+.auth-input {
+  width: 100%; background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 10px; padding: 11px 14px; color: var(--text);
+  font-size: 14px; outline: none; font-family: 'Inter', sans-serif;
+  transition: border-color .15s; box-sizing: border-box;
+}
+.auth-input:focus { border-color: var(--cyan); }
+.auth-fields { display: flex; flex-direction: column; gap: 14px; }
+.auth-btn {
+  width: 100%; margin-top: 22px; padding: 12px;
+  background: var(--cyan); border: none; border-radius: 10px;
+  color: #000; font-size: 14px; font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif; cursor: pointer;
+  letter-spacing: .03em; transition: opacity .15s;
+}
+.auth-btn:hover { opacity: .88; }
+#auth-err {
+  display: none; margin-top: 14px; padding: 10px 14px;
+  background: var(--red-dim); border: 1px solid rgba(240,48,96,.25);
+  border-radius: 8px; color: var(--red); font-size: 12px; text-align: center;
+}
+.auth-footer {
+  margin-top: 20px; text-align: center; font-size: 11px; color: var(--text-3);
+}
+.auth-footer a {
+  color: var(--cyan); text-decoration: none; cursor: pointer; opacity: .8;
+}
+.auth-footer a:hover { opacity: 1; }
+
+/* Change-password modal */
+#chpass-modal {
+  display: none; position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0,0,0,0.65); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
+}
+#chpass-box {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 16px; padding: 28px; width: 100%; max-width: 360px; margin: 16px;
+}
+#chpass-box label {
+  display: block; font-size: 10px; letter-spacing: .08em;
+  color: var(--text-3); font-weight: 600; margin-bottom: 6px;
+}
+#chpass-err { display:none; margin-top:10px; font-size:12px; color:var(--red); text-align:center; }
+#chpass-ok  { display:none; margin-top:10px; font-size:12px; color:var(--green); text-align:center; }
+
+/* Logout button in topbar */
+.btn-logout {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border2);
+  background: none; cursor: pointer; color: var(--text-3); transition: all .15s;
+}
+.btn-logout:hover { color: var(--red); border-color: rgba(240,48,96,.35); background: var(--red-dim); }
+
+@keyframes auth-shake {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-8px); }
+  40%,80% { transform: translateX(8px); }
+}
 </style>
 </head>
 <body>
+
+<!-- ══ LOGIN SCREEN ══ -->
+<div id="login-screen">
+  <div id="auth-box">
+    <div class="auth-logo">WOOMA</div>
+    <div class="auth-sub">CFO // COMMAND CENTER // ACESSO RESTRITO</div>
+    <div class="auth-fields">
+      <div>
+        <label>USUÁRIO</label>
+        <input id="auth-user" class="auth-input" type="text" placeholder="Seu usuário"
+          autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('auth-pass').focus()">
+      </div>
+      <div>
+        <label>SENHA</label>
+        <input id="auth-pass" class="auth-input" type="password" placeholder="Sua senha"
+          autocomplete="current-password" onkeydown="if(event.key==='Enter')authLogin()">
+      </div>
+    </div>
+    <button class="auth-btn" onclick="authLogin()">Entrar</button>
+    <div id="auth-err">Usuário ou senha incorretos.</div>
+    <div class="auth-footer">
+      <a onclick="abrirChpass()">Alterar senha</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: ALTERAR SENHA ══ -->
+<div id="chpass-modal">
+  <div id="chpass-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700">Alterar Senha</div>
+      <button onclick="fecharChpass()" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:18px;padding:2px 6px">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div>
+        <label>USUÁRIO ATUAL</label>
+        <input id="chpass-user" class="auth-input" type="text" placeholder="Usuário atual">
+      </div>
+      <div>
+        <label>SENHA ATUAL</label>
+        <input id="chpass-old" class="auth-input" type="password" placeholder="Senha atual">
+      </div>
+      <div>
+        <label>NOVA SENHA</label>
+        <input id="chpass-new" class="auth-input" type="password" placeholder="Nova senha">
+      </div>
+      <div>
+        <label>CONFIRMAR NOVA SENHA</label>
+        <input id="chpass-confirm" class="auth-input" type="password" placeholder="Repita a nova senha"
+          onkeydown="if(event.key==='Enter')salvarChpass()">
+      </div>
+    </div>
+    <div id="chpass-err"></div>
+    <div id="chpass-ok"></div>
+    <div style="display:flex;gap:10px;margin-top:22px;justify-content:flex-end">
+      <button onclick="fecharChpass()" style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:9px 18px;color:var(--text-2);font-size:13px;cursor:pointer;font-family:'Inter',sans-serif">Cancelar</button>
+      <button onclick="salvarChpass()" class="auth-btn" style="width:auto;margin:0;padding:9px 22px;font-size:13px">Salvar</button>
+    </div>
+  </div>
+</div>
 
 <!-- Tooltip -->
 <div id="tooltip">
@@ -1623,6 +1772,9 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
       <button class="btn-sync">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M23 4v6h-6M1 20v-6h6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         SYNC
+      </button>
+      <button class="btn-logout" onclick="authLogout()" title="Sair">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
   </header>
@@ -2473,6 +2625,133 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
 </div><!-- /wrap -->
 
 <script>
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+const AUTH_CREDS_KEY = 'wooma-auth-creds';   // { user, hash }
+const AUTH_SESS_KEY  = 'wooma-session';
+
+// Simple non-cryptographic hash — sufficient for a static-page gate
+function authHash(str) {
+  let h = 5381;
+  for (let i = 0; i < str.length; i++) {
+    h = ((h << 5) + h) ^ str.charCodeAt(i);
+    h = h >>> 0; // keep unsigned 32-bit
+  }
+  return h.toString(16);
+}
+
+function authCredsLoad() {
+  try { return JSON.parse(localStorage.getItem(AUTH_CREDS_KEY)); }
+  catch(e) { return null; }
+}
+
+// Default credentials — user: wooma / senha: wooma2024
+function authDefaultCreds() {
+  return { user: 'wooma', hash: authHash('wooma2024') };
+}
+
+function authIsLoggedIn() {
+  return sessionStorage.getItem(AUTH_SESS_KEY) === '1';
+}
+
+function authInit() {
+  if (authIsLoggedIn()) {
+    document.getElementById('login-screen').style.display = 'none';
+  }
+  // else: login-screen is visible by default (display:flex in CSS)
+}
+
+function authLogin() {
+  const user = document.getElementById('auth-user').value.trim();
+  const pass = document.getElementById('auth-pass').value;
+  const err  = document.getElementById('auth-err');
+
+  if (!user || !pass) {
+    err.textContent = 'Preencha usuário e senha.';
+    err.style.display = '';
+    return;
+  }
+
+  const creds = authCredsLoad() || authDefaultCreds();
+  if (user === creds.user && authHash(pass) === creds.hash) {
+    sessionStorage.setItem(AUTH_SESS_KEY, '1');
+    document.getElementById('login-screen').style.display = 'none';
+    err.style.display = 'none';
+  } else {
+    err.textContent = 'Usuário ou senha incorretos.';
+    err.style.display = '';
+    document.getElementById('auth-pass').value = '';
+    document.getElementById('auth-pass').focus();
+    const box = document.getElementById('auth-box');
+    box.style.animation = 'none';
+    requestAnimationFrame(() => { box.style.animation = 'auth-shake 0.35s ease'; });
+  }
+}
+
+function authLogout() {
+  if (!confirm('Deseja sair do sistema?')) return;
+  sessionStorage.removeItem(AUTH_SESS_KEY);
+  window.location.reload();
+}
+
+// ── CHANGE PASSWORD ──
+function abrirChpass() {
+  document.getElementById('chpass-user').value    = '';
+  document.getElementById('chpass-old').value     = '';
+  document.getElementById('chpass-new').value     = '';
+  document.getElementById('chpass-confirm').value = '';
+  document.getElementById('chpass-err').style.display = 'none';
+  document.getElementById('chpass-ok').style.display  = 'none';
+  document.getElementById('chpass-modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('chpass-user').focus(), 50);
+}
+
+function fecharChpass() {
+  document.getElementById('chpass-modal').style.display = 'none';
+}
+
+function salvarChpass() {
+  const user    = document.getElementById('chpass-user').value.trim();
+  const oldPass = document.getElementById('chpass-old').value;
+  const newPass = document.getElementById('chpass-new').value;
+  const confirm = document.getElementById('chpass-confirm').value;
+  const err     = document.getElementById('chpass-err');
+  const ok      = document.getElementById('chpass-ok');
+
+  err.style.display = 'none';
+  ok.style.display  = 'none';
+
+  const creds = authCredsLoad() || authDefaultCreds();
+
+  if (user !== creds.user || authHash(oldPass) !== creds.hash) {
+    err.textContent = 'Usuário ou senha atual incorretos.';
+    err.style.display = '';
+    return;
+  }
+  if (newPass.length < 6) {
+    err.textContent = 'A nova senha deve ter pelo menos 6 caracteres.';
+    err.style.display = '';
+    return;
+  }
+  if (newPass !== confirm) {
+    err.textContent = 'As senhas não coincidem.';
+    err.style.display = '';
+    return;
+  }
+
+  localStorage.setItem(AUTH_CREDS_KEY, JSON.stringify({ user, hash: authHash(newPass) }));
+  ok.textContent = 'Senha alterada com sucesso!';
+  ok.style.display = '';
+  setTimeout(fecharChpass, 1800);
+}
+
+document.getElementById('chpass-modal').addEventListener('click', function(e) {
+  if (e.target === this) fecharChpass();
+});
+
+// Init auth on load
+authInit();
+// ─────────────────────────────────────────────────────────────────────────────
+
 // ── THEME TOGGLE ──
 function toggleTheme() {
   document.body.classList.toggle('light');

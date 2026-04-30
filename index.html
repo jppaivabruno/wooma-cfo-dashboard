@@ -1580,6 +1580,12 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
       <span class="nl">Ponto de Equilíbrio</span>
     </div>
 
+    <div class="nav-group">// Compras</div>
+    <div class="nav-item" onclick="go('fornecedores',this)" title="Fornecedores">
+      <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" stroke="currentColor" stroke-width="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" stroke-width="2"/><line x1="12" y1="12" x2="12" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="9.5" y1="14.5" x2="14.5" y2="14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <span class="nl">Fornecedores</span>
+    </div>
+
     <div class="nav-group">// Estratégico</div>
     <div class="nav-item" onclick="go('investimento',this)" title="Investimento Inicial">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 22V12M8 16l4-4 4 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -2310,6 +2316,84 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
     </div>
   </div>
 
+  <!-- ── FORNECEDORES ── -->
+  <div class="page" id="pg-fornecedores">
+    <div class="banner">// <b>FORNECEDORES</b> · Cadastro e gestão de fornecedores</div>
+
+    <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+      <button class="btn-add-row" style="margin:0;padding:9px 18px;font-size:12px" onclick="abrirModalForn()">＋ Novo Fornecedor</button>
+    </div>
+
+    <!-- Tabela -->
+    <div class="inv-card" style="padding:0;overflow:hidden">
+      <table id="forn-table" style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr style="background:rgba(255,255,255,0.04);border-bottom:1px solid var(--border2)">
+            <th style="padding:12px 16px;text-align:left;font-family:var(--font-mono);font-size:10px;color:var(--text-3);font-weight:600;letter-spacing:.06em">FORNECEDOR</th>
+            <th style="padding:12px 16px;text-align:left;font-family:var(--font-mono);font-size:10px;color:var(--text-3);font-weight:600;letter-spacing:.06em">WHATSAPP</th>
+            <th style="padding:12px 16px;text-align:left;font-family:var(--font-mono);font-size:10px;color:var(--text-3);font-weight:600;letter-spacing:.06em">UNIDADE</th>
+            <th style="padding:12px 16px;text-align:right;font-family:var(--font-mono);font-size:10px;color:var(--text-3);font-weight:600;letter-spacing:.06em">VALOR</th>
+            <th style="padding:12px 16px;text-align:left;font-family:var(--font-mono);font-size:10px;color:var(--text-3);font-weight:600;letter-spacing:.06em">ENTREGA</th>
+            <th style="padding:12px 16px;text-align:center;font-family:var(--font-mono);font-size:10px;color:var(--text-3);font-weight:600;letter-spacing:.06em">AÇÕES</th>
+          </tr>
+        </thead>
+        <tbody id="forn-body">
+          <tr id="forn-empty">
+            <td colspan="6" style="padding:40px;text-align:center;color:var(--text-3);font-size:13px">
+              Nenhum fornecedor cadastrado. Clique em "＋ Novo Fornecedor" para começar.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Fornecedor -->
+  <div id="forn-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);align-items:center;justify-content:center">
+    <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px;width:100%;max-width:440px;margin:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div style="font-family:var(--font-head);font-size:15px;font-weight:700" id="forn-modal-title">Novo Fornecedor</div>
+        <button onclick="fecharModalForn()" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:18px;line-height:1;padding:2px 6px">✕</button>
+      </div>
+
+      <input type="hidden" id="forn-edit-id" value="">
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <label style="font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.05em;display:block;margin-bottom:6px">NOME *</label>
+          <input id="forn-nome" type="text" placeholder="Nome do fornecedor" style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)">
+        </div>
+        <div>
+          <label style="font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.05em;display:block;margin-bottom:6px">WHATSAPP</label>
+          <div style="position:relative">
+            <svg style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#25D366" width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <input id="forn-tel" type="text" placeholder="5511999998888 (DDI+DDD+número)" style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px 10px 34px;color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)">
+          </div>
+          <div style="font-size:10px;color:var(--text-3);margin-top:4px;font-family:var(--font-mono)">Ex: 5511999998888 — abre direto no WhatsApp</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <label style="font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.05em;display:block;margin-bottom:6px">UNIDADE</label>
+            <input id="forn-unidade" type="text" placeholder="kg, un, cx..." style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)">
+          </div>
+          <div>
+            <label style="font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.05em;display:block;margin-bottom:6px">VALOR (R$)</label>
+            <input id="forn-valor" type="number" step="0.01" min="0" placeholder="0,00" style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)">
+          </div>
+        </div>
+        <div>
+          <label style="font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.05em;display:block;margin-bottom:6px">TEMPO DE ENTREGA</label>
+          <input id="forn-entrega" type="text" placeholder="Ex: 3 dias úteis, 24h" style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)">
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:22px;justify-content:flex-end">
+        <button onclick="fecharModalForn()" style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:9px 18px;color:var(--text-2);font-size:13px;cursor:pointer;font-family:var(--font-body)">Cancelar</button>
+        <button onclick="salvarForn()" style="background:var(--cyan);border:none;border-radius:8px;padding:9px 22px;color:#000;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body)">Salvar</button>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /main -->
 </div><!-- /wrap -->
 
@@ -2334,7 +2418,8 @@ const pages = {
   cmv:           { title: 'CMV & Produção',       sub: 'SHEET:CMV_PRODUÇÃO // ESTOQUE & CUSTO' },
   'custos-fixos':{ title: 'Custos Fixos',         sub: 'SHEET:CUSTOS_FIXOS // DESPESAS RECORRENTES' },
   equilibrio:    { title: 'Ponto de Equilíbrio',  sub: 'SHEET:PONTO_EQUILÍBRIO // BREAK-EVEN' },
-  investimento:  { title: 'Investimento Inicial', sub: 'SHEET:INVESTIMENTO // APORTE & ROI' }
+  investimento:  { title: 'Investimento Inicial', sub: 'SHEET:INVESTIMENTO // APORTE & ROI' },
+  fornecedores:  { title: 'Fornecedores',         sub: 'SHEET:FORNECEDORES // CADASTRO & CONTATOS' }
 };
 
 function go(id, el) {
@@ -3215,6 +3300,136 @@ function updateDonutMix(rows) {
   s.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
   document.head.appendChild(s);
 })();
+
+// ── FORNECEDORES ──────────────────────────────────────────────────────────────
+const FORN_KEY = 'wooma-fornecedores';
+
+function fornLoad() {
+  try { return JSON.parse(localStorage.getItem(FORN_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function fornSave(list) {
+  localStorage.setItem(FORN_KEY, JSON.stringify(list));
+}
+function fornUid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2);
+}
+
+function renderForn() {
+  const list = fornLoad();
+  const tbody = document.getElementById('forn-body');
+  const empty = document.getElementById('forn-empty');
+  // remove existing rows (keep empty row)
+  Array.from(tbody.querySelectorAll('tr:not(#forn-empty)')).forEach(r => r.remove());
+
+  if (!list.length) {
+    empty.style.display = '';
+    return;
+  }
+  empty.style.display = 'none';
+
+  list.forEach((f, idx) => {
+    const valorFmt = f.valor != null && f.valor !== ''
+      ? Number(f.valor).toLocaleString('pt-BR', { style:'currency', currency:'BRL' })
+      : '—';
+    const wppHtml = f.tel
+      ? `<a href="https://wa.me/${f.tel.replace(/\D/g,'')}" target="_blank" rel="noopener"
+            style="display:inline-flex;align-items:center;gap:6px;color:#25D366;font-weight:600;text-decoration:none;font-size:12px">
+           <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+           ${f.tel}
+         </a>`
+      : '<span style="color:var(--text-3)">—</span>';
+
+    const tr = document.createElement('tr');
+    tr.style.cssText = 'border-bottom:1px solid var(--border);transition:background .15s';
+    tr.onmouseenter = () => tr.style.background = 'rgba(255,255,255,0.03)';
+    tr.onmouseleave = () => tr.style.background = '';
+    tr.innerHTML = `
+      <td style="padding:13px 16px;font-weight:600;color:var(--text)">${f.nome}</td>
+      <td style="padding:13px 16px">${wppHtml}</td>
+      <td style="padding:13px 16px;color:var(--text-2);font-family:var(--font-mono);font-size:12px">${f.unidade || '—'}</td>
+      <td style="padding:13px 16px;text-align:right;font-family:var(--font-mono);font-weight:700;color:var(--cyan)">${valorFmt}</td>
+      <td style="padding:13px 16px;color:var(--text-2);font-size:12px">${f.entrega || '—'}</td>
+      <td style="padding:13px 16px;text-align:center">
+        <button onclick="editarForn('${f.id}')" title="Editar"
+          style="background:none;border:1px solid var(--border2);border-radius:6px;padding:5px 9px;color:var(--text-2);cursor:pointer;margin-right:5px;font-size:12px">✏️</button>
+        <button onclick="excluirForn('${f.id}')" title="Excluir"
+          style="background:none;border:1px solid rgba(240,48,96,.25);border-radius:6px;padding:5px 9px;color:var(--red);cursor:pointer;font-size:12px">🗑</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function abrirModalForn() {
+  document.getElementById('forn-edit-id').value = '';
+  document.getElementById('forn-modal-title').textContent = 'Novo Fornecedor';
+  document.getElementById('forn-nome').value    = '';
+  document.getElementById('forn-tel').value     = '';
+  document.getElementById('forn-unidade').value = '';
+  document.getElementById('forn-valor').value   = '';
+  document.getElementById('forn-entrega').value = '';
+  const m = document.getElementById('forn-modal');
+  m.style.display = 'flex';
+  setTimeout(() => document.getElementById('forn-nome').focus(), 50);
+}
+
+function fecharModalForn() {
+  document.getElementById('forn-modal').style.display = 'none';
+}
+
+function editarForn(id) {
+  const list = fornLoad();
+  const f = list.find(x => x.id === id);
+  if (!f) return;
+  document.getElementById('forn-edit-id').value  = id;
+  document.getElementById('forn-modal-title').textContent = 'Editar Fornecedor';
+  document.getElementById('forn-nome').value    = f.nome    || '';
+  document.getElementById('forn-tel').value     = f.tel     || '';
+  document.getElementById('forn-unidade').value = f.unidade || '';
+  document.getElementById('forn-valor').value   = f.valor   != null ? f.valor : '';
+  document.getElementById('forn-entrega').value = f.entrega || '';
+  document.getElementById('forn-modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('forn-nome').focus(), 50);
+}
+
+function salvarForn() {
+  const nome = document.getElementById('forn-nome').value.trim();
+  if (!nome) { alert('Nome é obrigatório.'); return; }
+  const id  = document.getElementById('forn-edit-id').value;
+  const obj = {
+    id:      id || fornUid(),
+    nome,
+    tel:     document.getElementById('forn-tel').value.trim(),
+    unidade: document.getElementById('forn-unidade').value.trim(),
+    valor:   document.getElementById('forn-valor').value !== '' ? parseFloat(document.getElementById('forn-valor').value) : null,
+    entrega: document.getElementById('forn-entrega').value.trim(),
+  };
+  let list = fornLoad();
+  if (id) {
+    list = list.map(x => x.id === id ? obj : x);
+  } else {
+    list.push(obj);
+  }
+  list.sort((a,b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+  fornSave(list);
+  fecharModalForn();
+  renderForn();
+}
+
+function excluirForn(id) {
+  if (!confirm('Excluir este fornecedor?')) return;
+  fornSave(fornLoad().filter(x => x.id !== id));
+  renderForn();
+}
+
+// Fechar modal clicando fora
+document.getElementById('forn-modal').addEventListener('click', function(e) {
+  if (e.target === this) fecharModalForn();
+});
+
+// Render inicial
+renderForn();
+// ─────────────────────────────────────────────────────────────────────────────
 </script>
 </body>
 </html>

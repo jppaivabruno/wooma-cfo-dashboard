@@ -361,6 +361,17 @@ body.light .sb-brand::after {
 body.light .sync {
   color: rgba(13,15,26,0.5);
 }
+body.light .btn-sb-collapse {
+  color: rgba(13,15,26,0.45);
+}
+body.light .btn-sb-collapse:hover {
+  color: #0099BB;
+  background: rgba(0,153,187,0.07);
+}
+body.light .sb-collapse-icon {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.1);
+}
 body.light .sd {
   background: #00955A;
   box-shadow: 0 0 6px rgba(0,149,90,0.4);
@@ -510,7 +521,8 @@ body::before { display: none; }
   top: 0; left: 0; bottom: 0;
   z-index: 200;
   box-shadow: 4px 0 32px rgba(0,0,0,0.35);
-  transition: transform .3s cubic-bezier(.4,0,.2,1);
+  transition: width .25s cubic-bezier(.4,0,.2,1), transform .3s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
 }
 
 .sb-brand {
@@ -680,9 +692,57 @@ body::before { display: none; }
   flex: 1;
   display: flex;
   flex-direction: column;
+  transition: margin-left .25s cubic-bezier(.4,0,.2,1);
   /* Navy-toned ambient glow */
   background-image: radial-gradient(ellipse at 75% 0%, rgba(0,207,235,0.04) 0%, transparent 50%),
     radial-gradient(ellipse at 25% 100%, rgba(157,110,245,0.04) 0%, transparent 50%);
+}
+
+/* ── SIDEBAR COLLAPSED (desktop only) ── */
+body.sb-collapsed .sidebar { width: 54px; }
+body.sb-collapsed .wrap    { margin-left: 54px; }
+
+body.sb-collapsed .sb-sub          { opacity: 0; pointer-events: none; }
+body.sb-collapsed .sb-logo         { font-size: 11px; letter-spacing: 1px; }
+body.sb-collapsed .sb-brand        { padding: 18px 0; align-items: center; }
+body.sb-collapsed .nav-group       { display: none; }
+body.sb-collapsed .nl              { display: none; }
+body.sb-collapsed .nb              { display: none; }
+body.sb-collapsed .sync-label      { display: none; }
+body.sb-collapsed .nav-item        { justify-content: center; padding: 9px 0; }
+body.sb-collapsed .sb-foot         { padding: 10px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+body.sb-collapsed .btn-sb-collapse { justify-content: center; }
+body.sb-collapsed .btn-sb-collapse .nl { display: none; }
+body.sb-collapsed .btn-sb-collapse .sb-collapse-icon { transform: rotate(180deg); }
+
+/* collapse button */
+.btn-sb-collapse {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-3);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: color .15s, background .15s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.btn-sb-collapse:hover { color: var(--cyan); background: rgba(0,229,255,0.06); }
+.sb-collapse-icon {
+  width: 20px; height: 20px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: transform .25s cubic-bezier(.4,0,.2,1);
+  font-size: 10px;
 }
 
 .topbar {
@@ -1054,16 +1114,16 @@ body.light .icon-sun  { display: block; }
 .cs { font-size: 12px; color: var(--text-2); font-family: var(--font-body); margin-bottom: 16px; }
 
 /* Donut */
-.donut-w { display: flex; align-items: center; gap: 20px; }
+.donut-w { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; height: 100%; padding: 8px 0 4px; }
 .dsv { position: relative; flex-shrink: 0; }
 .dcenter { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.dc-n { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--text); }
+.dc-n { font-family: var(--font-mono); font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -1px; }
 .dc-l { font-size: 10px; color: var(--text-2); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; font-family: var(--font-body); }
-.leg { display: flex; flex-direction: column; gap: 11px; }
-.lr { display: flex; align-items: center; gap: 9px; }
-.ld { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
-.ln { font-size: 13px; color: var(--text-2); flex: 1; }
-.lp { font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--text); }
+.leg { display: flex; flex-direction: row; gap: 18px; justify-content: center; flex-wrap: wrap; }
+.lr { display: flex; align-items: center; gap: 7px; }
+.ld { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.ln { font-size: 12px; color: var(--text-2); }
+.lp { font-family: var(--font-mono); font-size: 13px; font-weight: 700; }
 
 /* ── TOOLTIP ── */
 #tooltip {
@@ -1097,6 +1157,56 @@ body.light .icon-sun  { display: block; }
 .day-row span:first-child { color: var(--text-2); }
 .day-row span:last-child { font-weight: 600; }
 
+/* ── FIN DIÁRIO: CONFIG PANEL ── */
+.fin-cfg {
+  background: var(--surface);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r);
+  padding: 12px 18px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.fin-cfg-label {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-3);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.fin-cfg-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.fin-cfg-item label {
+  font-size: 11px;
+  color: var(--text-2);
+  white-space: nowrap;
+  font-family: var(--font-body);
+}
+.fin-cfg-inp {
+  width: 72px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 4px 7px;
+  text-align: right;
+  transition: border-color .15s;
+}
+.fin-cfg-inp:focus { outline: none; border-color: var(--cyan); }
+body.light .fin-cfg-inp { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color: #0D0E1A; }
+/* Column type headers */
+th.th-manual { color: var(--cyan) !important; }
+th.th-calc   { color: var(--text-3) !important; font-style: italic; }
+td.fin-calc  { font-family: var(--font-mono); opacity: .85; }
+
 /* ── TABLE ── */
 .tbl-card {
   background: var(--surface);
@@ -1126,9 +1236,10 @@ thead th {
   font-weight: 600;
   border-bottom: 1px solid var(--border);
   font-family: var(--font-body);
+  white-space: nowrap;
 }
 thead th:not(:first-child) { text-align: right; }
-tbody td { padding: 11px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+tbody td { padding: 11px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); white-space: nowrap; }
 tbody td:not(:first-child) { text-align: right; font-family: var(--font-mono); }
 tbody tr:last-child td { border: none; }
 tbody tr:hover td { background: var(--surface2); }
@@ -1401,6 +1512,14 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   .sidebar { transform: translateX(0) !important; }
   .btn-hamburger { display: none !important; }
   .sb-overlay { display: none !important; }
+  /* No mobile, collapse button não faz sentido */
+  .btn-sb-collapse { display: flex; }
+}
+@media (max-width: 767px) {
+  .btn-sb-collapse { display: none !important; }
+  /* No mobile a sidebar usa transform, nunca width */
+  body.sb-collapsed .sidebar { width: var(--sidebar) !important; }
+  body.sb-collapsed .wrap    { margin-left: 0 !important; }
 }
 </style>
 </head>
@@ -1424,52 +1543,58 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   </div>
   <nav class="sb-nav">
     <div class="nav-group">// Overview</div>
-    <div class="nav-item active" onclick="go('overview',this)">
+    <div class="nav-item active" onclick="go('overview',this)" title="Dashboard Geral">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/></svg></div>
-      Dashboard Geral
+      <span class="nl">Dashboard Geral</span>
     </div>
 
     <div class="nav-group">// Finanças</div>
-    <div class="nav-item" onclick="go('fin-diario',this)">
+    <div class="nav-item" onclick="go('fin-diario',this)" title="Financeiro Diário">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="16 7 22 7 22 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      Financeiro Diário
+      <span class="nl">Financeiro Diário</span>
     </div>
-    <div class="nav-item" onclick="go('vendas-canal',this)">
+    <div class="nav-item" onclick="go('vendas-canal',this)" title="Vendas por Canal">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="2"/></svg></div>
-      Vendas por Canal
+      <span class="nl">Vendas por Canal</span>
     </div>
-    <div class="nav-item" onclick="go('fluxo',this)">
+    <div class="nav-item" onclick="go('fluxo',this)" title="Fluxo de Caixa">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M2 10h20" stroke="currentColor" stroke-width="2"/><circle cx="7" cy="15" r="1" fill="currentColor"/></svg></div>
-      Fluxo de Caixa
+      <span class="nl">Fluxo de Caixa</span>
     </div>
 
     <div class="nav-group">// Operacional</div>
-    <div class="nav-item" onclick="go('precificacao',this)">
+    <div class="nav-item" onclick="go('precificacao',this)" title="Precificação">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" stroke="currentColor" stroke-width="2"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg></div>
-      Precificação
+      <span class="nl">Precificação</span>
     </div>
-    <div class="nav-item" onclick="go('cmv',this)">
+    <div class="nav-item" onclick="go('cmv',this)" title="CMV & Produção">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="2"/><polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="2"/></svg></div>
-      CMV & Produção
+      <span class="nl">CMV & Produção</span>
     </div>
-    <div class="nav-item" onclick="go('custos-fixos',this)">
+    <div class="nav-item" onclick="go('custos-fixos',this)" title="Custos Fixos">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/><polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="2"/></svg></div>
-      Custos Fixos
+      <span class="nl">Custos Fixos</span>
     </div>
-    <div class="nav-item" onclick="go('equilibrio',this)">
+    <div class="nav-item" onclick="go('equilibrio',this)" title="Ponto de Equilíbrio">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><line x1="12" y1="20" x2="12" y2="10" stroke="currentColor" stroke-width="2"/><line x1="18" y1="20" x2="18" y2="4" stroke="currentColor" stroke-width="2"/><line x1="6" y1="20" x2="6" y2="16" stroke="currentColor" stroke-width="2"/></svg></div>
-      Ponto de Equilíbrio
+      <span class="nl">Ponto de Equilíbrio</span>
     </div>
 
     <div class="nav-group">// Estratégico</div>
-    <div class="nav-item" onclick="go('investimento',this)">
+    <div class="nav-item" onclick="go('investimento',this)" title="Investimento Inicial">
       <div class="ni"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 22V12M8 16l4-4 4 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
-      Investimento Inicial
+      <span class="nl">Investimento Inicial</span>
       <span class="nb">R$49k</span>
     </div>
   </nav>
   <div class="sb-foot">
-    <div class="sync"><div class="sd"></div>SYNC // LIVE</div>
+    <div class="sync"><div class="sd"></div><span class="sync-label">SYNC // LIVE</span></div>
+    <button class="btn-sb-collapse" onclick="toggleSbCollapse()" title="Minimizar menu">
+      <div class="sb-collapse-icon">
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none"><polyline points="15 18 9 12 15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="nl">Minimizar</span>
+    </button>
   </div>
 </aside>
 
@@ -1640,71 +1765,22 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
     <div class="slabel">Performance Diária</div>
     <div class="cg">
       <div class="cc">
-        <div class="ct">Receita × Despesa × Lucro</div>
-        <div class="cs">EVOLUÇÃO DIÁRIA // MAIO 2026</div>
-        <!-- Interactive SVG bar chart -->
-        <svg id="chart-daily" viewBox="0 0 460 155" width="100%" style="cursor:crosshair">
-          <!-- Grid -->
-          <line x1="40" y1="10"  x2="450" y2="10"  stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="40" y1="45"  x2="450" y2="45"  stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="40" y1="80"  x2="450" y2="80"  stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="40" y1="115" x2="450" y2="115" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-          <line x1="40" y1="135" x2="450" y2="135" stroke="rgba(255,255,255,0.04)" stroke-width="1.5"/>
-          <!-- Y labels -->
-          <text x="34" y="14"  text-anchor="end" font-size="9" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">320k</text>
-          <text x="34" y="49"  text-anchor="end" font-size="9" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">240k</text>
-          <text x="34" y="84"  text-anchor="end" font-size="9" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">160k</text>
-          <text x="34" y="119" text-anchor="end" font-size="9" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">80k</text>
-
-          <!-- 01/05: R$54k receita, R$40.6k desp, R$7.6k lucro -->
-          <rect class="bar-hover" x="52"  y="114" width="14" height="21" rx="3" fill="#00FF94" opacity=".85" filter="url(#bglow)"
-            data-label="01/05 · Receita" data-val="R$ 54.000" data-sub="Despesa: R$40.600 · Lucro: R$7.600"/>
-          <rect class="bar-hover" x="68"  y="118" width="14" height="17" rx="3" fill="#FF3366" opacity=".75"
-            data-label="01/05 · Despesa" data-val="R$ 40.600" data-sub="Receita: R$54.000"/>
-          <rect class="bar-hover" x="84"  y="130" width="14" height="5"  rx="2" fill="#3D9EFF" opacity=".8"
-            data-label="01/05 · Lucro" data-val="R$ 7.600" data-sub="Margem: 14,0%"/>
-          <text x="74" y="150" text-anchor="middle" font-size="9" fill="rgba(232,232,240,0.3)" font-family="IBM Plex Mono">01/05</text>
-
-          <!-- 02/05: R$34k receita, R$21k desp, R$10.9k lucro -->
-          <rect class="bar-hover" x="120" y="122" width="14" height="13" rx="3" fill="#00FF94" opacity=".85"
-            data-label="02/05 · Receita" data-val="R$ 34.000" data-sub="Despesa: R$21.000 · Lucro: R$10.900"/>
-          <rect class="bar-hover" x="136" y="127" width="14" height="8"  rx="3" fill="#FF3366" opacity=".75"
-            data-label="02/05 · Despesa" data-val="R$ 21.000" data-sub="Receita: R$34.000"/>
-          <rect class="bar-hover" x="152" y="128" width="14" height="7"  rx="2" fill="#3D9EFF" opacity=".8"
-            data-label="02/05 · Lucro" data-val="R$ 10.900" data-sub="Margem: 32,1%"/>
-          <text x="142" y="150" text-anchor="middle" font-size="9" fill="rgba(232,232,240,0.3)" font-family="IBM Plex Mono">02/05</text>
-
-          <!-- 03/05: R$320.5k receita, R$202k desp, R$115k lucro -->
-          <rect class="bar-hover" x="188" y="10"  width="14" height="125" rx="3" fill="#00FF94" opacity=".9"
-            data-label="03/05 · Receita" data-val="R$ 320.542" data-sub="Despesa: R$202k · Lucro: R$115k"/>
-          <rect class="bar-hover" x="204" y="45"  width="14" height="90"  rx="3" fill="#FF3366" opacity=".8"
-            data-label="03/05 · Despesa" data-val="R$ 202.000" data-sub="Receita: R$320.542"/>
-          <rect class="bar-hover" x="220" y="79"  width="14" height="56"  rx="3" fill="#3D9EFF" opacity=".85"
-            data-label="03/05 · Lucro" data-val="R$ 115.015" data-sub="Margem: 35,9%"/>
-          <text x="210" y="150" text-anchor="middle" font-size="9" fill="rgba(232,232,240,0.3)" font-family="IBM Plex Mono">03/05</text>
-
-          <!-- Dias futuros (placeholder) -->
-          <rect x="256" y="132" width="42" height="3" rx="2" fill="rgba(255,255,255,0.04)"/>
-          <rect x="312" y="132" width="42" height="3" rx="2" fill="rgba(255,255,255,0.04)"/>
-          <rect x="368" y="132" width="42" height="3" rx="2" fill="rgba(255,255,255,0.04)"/>
-          <text x="277" y="150" text-anchor="middle" font-size="9" fill="rgba(232,232,240,0.15)" font-family="IBM Plex Mono">04/05</text>
-          <text x="333" y="150" text-anchor="middle" font-size="9" fill="rgba(232,232,240,0.15)" font-family="IBM Plex Mono">05/05</text>
-          <text x="389" y="150" text-anchor="middle" font-size="9" fill="rgba(232,232,240,0.15)" font-family="IBM Plex Mono">06/05</text>
-
-          <!-- Legend -->
-          <rect x="296" y="10" width="8" height="8" rx="2" fill="#00FF94" opacity=".85"/>
-          <text x="308" y="19" font-size="9" fill="rgba(232,232,240,0.5)" font-family="IBM Plex Mono">Receita</text>
-          <rect x="350" y="10" width="8" height="8" rx="2" fill="#FF3366" opacity=".8"/>
-          <text x="362" y="19" font-size="9" fill="rgba(232,232,240,0.5)" font-family="IBM Plex Mono">Despesa</text>
-          <rect x="404" y="10" width="8" height="8" rx="2" fill="#3D9EFF" opacity=".85"/>
-          <text x="416" y="19" font-size="9" fill="rgba(232,232,240,0.5)" font-family="IBM Plex Mono">Lucro</text>
-
+        <div class="ct">Receita por Dia</div>
+        <div class="cs" id="chart-receita-sub">EVOLUÇÃO DIÁRIA // PLANILHA LIVE</div>
+        <svg id="chart-receita" viewBox="0 0 460 165" width="100%" style="display:block;overflow:visible">
           <defs>
-            <filter id="bglow">
-              <feGaussianBlur stdDeviation="2" result="b"/>
+            <linearGradient id="grad-receita" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00E07A" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#00E07A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="lglow">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
               <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
+          <!-- placeholder while data loads -->
+          <text id="chart-receita-loading" x="230" y="82" text-anchor="middle" font-size="11"
+            fill="rgba(232,232,240,0.2)" font-family="IBM Plex Mono">Carregando dados...</text>
         </svg>
       </div>
 
@@ -1713,72 +1789,31 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
         <div class="cs">POR KIT // 1, 3 OU 6 FRASCOS</div>
         <div class="donut-w">
           <div class="dsv">
-            <svg width="104" height="104" viewBox="0 0 104 104">
-              <circle cx="52" cy="52" r="36" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="16"/>
-              <circle cx="52" cy="52" r="36" fill="none" stroke="#00E5FF" stroke-width="16" stroke-dasharray="58.8 226.2" stroke-dashoffset="0" transform="rotate(-90 52 52)" filter="url(#bglow)"/>
-              <circle cx="52" cy="52" r="36" fill="none" stroke="#A855F7" stroke-width="16" stroke-dasharray="97.3 186.8" stroke-dashoffset="-58.8" transform="rotate(-90 52 52)"/>
-              <circle cx="52" cy="52" r="36" fill="none" stroke="#3D9EFF" stroke-width="16" stroke-dasharray="70.1 156" stroke-dashoffset="-156.1" transform="rotate(-90 52 52)"/>
-              <circle cx="52" cy="52" r="26" fill="#0D0D1A"/>
+            <svg id="donut-mix" width="190" height="190" viewBox="0 0 190 190">
+              <!-- background ring -->
+              <circle cx="95" cy="95" r="72" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="22"/>
+              <!-- 1 Frasco: 26% → circ=452.4, arc=117.6 -->
+              <circle cx="95" cy="95" r="72" fill="none" stroke="#00E5FF" stroke-width="22"
+                stroke-dasharray="117.6 452.4" stroke-dashoffset="0"
+                transform="rotate(-90 95 95)"/>
+              <!-- 3 Frascos: 43% → arc=194.5 -->
+              <circle cx="95" cy="95" r="72" fill="none" stroke="#A855F7" stroke-width="22"
+                stroke-dasharray="194.5 452.4" stroke-dashoffset="-117.6"
+                transform="rotate(-90 95 95)"/>
+              <!-- 6 Frascos: 31% → arc=140.2 -->
+              <circle cx="95" cy="95" r="72" fill="none" stroke="#3B8FEF" stroke-width="22"
+                stroke-dasharray="140.2 452.4" stroke-dashoffset="-312.1"
+                transform="rotate(-90 95 95)"/>
+              <!-- inner hole -->
+              <circle cx="95" cy="95" r="61" fill="var(--bg2)"/>
             </svg>
-            <div class="dcenter"><div class="dc-n">342</div><div class="dc-l">pedidos</div></div>
+            <div class="dcenter"><div class="dc-n" id="donut-total">342</div><div class="dc-l">pedidos</div></div>
           </div>
           <div class="leg">
-            <div class="lr"><div class="ld" style="background:#00E5FF"></div><span class="ln">1 Frasco</span><span class="lp" style="color:var(--cyan)">26%</span></div>
-            <div class="lr"><div class="ld" style="background:#A855F7"></div><span class="ln">3 Frascos</span><span class="lp" style="color:var(--violet)">43%</span></div>
-            <div class="lr"><div class="ld" style="background:#3D9EFF"></div><span class="ln">6 Frascos</span><span class="lp" style="color:var(--blue)">31%</span></div>
+            <div class="lr"><div class="ld" style="background:#00E5FF"></div><span class="ln">1 Frasco</span><span class="lp" style="color:var(--cyan)" id="mix-pct-1">26%</span></div>
+            <div class="lr"><div class="ld" style="background:#A855F7"></div><span class="ln">3 Frascos</span><span class="lp" style="color:var(--violet)" id="mix-pct-3">43%</span></div>
+            <div class="lr"><div class="ld" style="background:#3B8FEF"></div><span class="ln">6 Frascos</span><span class="lp" style="color:var(--blue)" id="mix-pct-6">31%</span></div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="gap"></div>
-
-    <!-- FATURAMENTO DO DIA -->
-    <div class="slabel">Faturamento do Dia — 03/05/2026</div>
-    <div class="cc">
-      <div class="day-grid">
-        <div class="day-stat">
-          <div class="day-lbl">Hoje · 03/05</div>
-          <div class="day-big">R$320k</div>
-          <div class="day-row"><span>Meta/dia</span><span>R$21.127</span></div>
-          <div class="day-row"><span>vs meta</span><span style="color:var(--green)">+1.416%</span></div>
-          <div class="day-row"><span>Pedidos</span><span>195</span></div>
-          <div class="day-row"><span>Lucro</span><span style="color:var(--cyan)">R$115.015</span></div>
-        </div>
-        <div>
-          <div style="font-size:11px;font-weight:600;font-family:'Space Grotesk',sans-serif;color:var(--text-3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px">Receita por Hora · 03/05</div>
-          <!-- Hourly chart with hover tooltips -->
-          <svg id="chart-hourly" viewBox="0 0 400 110" width="100%" style="cursor:crosshair">
-            <line x1="0" y1="90" x2="400" y2="90" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-            <!-- Bars with tooltip data -->
-            <rect class="bar-hover" x="14"  y="78" width="22" height="12" rx="3" fill="#3D9EFF" opacity=".6" data-label="08h" data-val="R$ 8.200"  data-sub="8 pedidos"/>
-            <rect class="bar-hover" x="44"  y="68" width="22" height="22" rx="3" fill="#3D9EFF" opacity=".7" data-label="09h" data-val="R$ 14.500" data-sub="15 pedidos"/>
-            <rect class="bar-hover" x="74"  y="50" width="22" height="40" rx="3" fill="#00E5FF" opacity=".75" data-label="10h" data-val="R$ 28.000" data-sub="28 pedidos"/>
-            <rect class="bar-hover" x="104" y="10" width="22" height="80" rx="3" fill="#00FF94" opacity=".9" data-label="11h" data-val="R$ 62.000" data-sub="62 pedidos // PICO"/>
-            <rect class="bar-hover" x="134" y="18" width="22" height="72" rx="3" fill="#00FF94" opacity=".85" data-label="12h" data-val="R$ 55.000" data-sub="52 pedidos"/>
-            <rect class="bar-hover" x="164" y="38" width="22" height="52" rx="3" fill="#00E5FF" opacity=".75" data-label="13h" data-val="R$ 38.000" data-sub="36 pedidos"/>
-            <rect class="bar-hover" x="194" y="56" width="22" height="34" rx="3" fill="#3D9EFF" opacity=".7" data-label="14h" data-val="R$ 26.000" data-sub="24 pedidos"/>
-            <rect class="bar-hover" x="224" y="22" width="22" height="68" rx="3" fill="#00FF94" opacity=".9" data-label="15h" data-val="R$ 52.000" data-sub="48 pedidos // 2º PICO"/>
-            <rect class="bar-hover" x="254" y="32" width="22" height="58" rx="3" fill="#00E5FF" opacity=".75" data-label="16h" data-val="R$ 44.000" data-sub="40 pedidos"/>
-            <rect class="bar-hover" x="284" y="50" width="22" height="40" rx="3" fill="#3D9EFF" opacity=".7" data-label="17h" data-val="R$ 28.500" data-sub="26 pedidos"/>
-            <rect class="bar-hover" x="314" y="65" width="22" height="25" rx="3" fill="#3D9EFF" opacity=".6" data-label="18h" data-val="R$ 16.000" data-sub="14 pedidos"/>
-            <rect class="bar-hover" x="344" y="74" width="22" height="16" rx="3" fill="#3D9EFF" opacity=".5" data-label="19h" data-val="R$ 8.842"  data-sub="8 pedidos"/>
-            <!-- X labels -->
-            <text x="25"  y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">8h</text>
-            <text x="55"  y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">9h</text>
-            <text x="85"  y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">10h</text>
-            <text x="115" y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.3)"  font-family="IBM Plex Mono">11h</text>
-            <text x="145" y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.3)"  font-family="IBM Plex Mono">12h</text>
-            <text x="175" y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">13h</text>
-            <text x="205" y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">14h</text>
-            <text x="235" y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.3)"  font-family="IBM Plex Mono">15h</text>
-            <text x="265" y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">16h</text>
-            <text x="295" y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">17h</text>
-            <text x="325" y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">18h</text>
-            <text x="355" y="104" text-anchor="middle" font-size="8" fill="rgba(232,232,240,0.25)" font-family="IBM Plex Mono">19h</text>
-            <!-- Peak annotation -->
-            <text x="115" y="7" text-anchor="middle" font-size="8" fill="#00FF94" font-weight="600" font-family="IBM Plex Mono">R$62k</text>
-          </svg>
         </div>
       </div>
     </div>
@@ -1788,24 +1823,75 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
 
   <!-- ════════════════ FINANCEIRO DIÁRIO ════════════════ -->
   <div class="page" id="pg-fin-diario">
-    <div class="banner">// <b>FINANCEIRO DIÁRIO</b> · Google Sheets · Live Sync</div>
+    <div class="banner">// <b>FINANCEIRO DIÁRIO</b> · Entrada Manual · Auto-Cálculo · Salvo Localmente</div>
     <div class="kg" style="margin-bottom:14px">
-      <div class="kc"><div class="kc-top"><div><div class="klabel">Receita Acumulada</div><div class="kval c-green" style="font-size:22px">R$408.542</div></div><div class="kc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></div></div><span class="pill pill-v">3 dias · Maio 2026</span></div>
-      <div class="kc"><div class="kc-top"><div><div class="klabel">Total Pedidos</div><div class="kval" style="font-size:22px">342</div></div><div class="kc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="rgba(232,232,240,0.5)" stroke-width="2"/><line x1="3" y1="6" x2="21" y2="6" stroke="rgba(232,232,240,0.5)" stroke-width="2"/></svg></div></div><span class="pill pill-n">01/05 a 03/05</span></div>
-      <div class="kc"><div class="kc-top"><div><div class="klabel">Frascos Expedidos</div><div class="kval" style="font-size:22px">1.218</div></div><div class="kc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="rgba(232,232,240,0.5)" stroke-width="2"/></svg></div></div><span class="pill pill-r">⚠ Acima do estoque</span></div>
-      <div class="kc"><div class="kc-top"><div><div class="klabel">Lucro Total</div><div class="kval c-cyan" style="font-size:22px">R$133.480</div></div><div class="kc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><span class="pill pill-g">▲ Margem 27,3%</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Receita Acumulada</div><div class="kval" id="fin-kpi-receita" style="font-size:22px">—</div></div></div><span class="pill pill-n" id="fin-kpi-periodo">Sem dados</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Total de Vendas</div><div class="kval" id="fin-kpi-vendas" style="font-size:22px">—</div></div></div><span class="pill pill-n" id="fin-kpi-frascos-pill">—</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Total de Frascos</div><div class="kval" id="fin-kpi-frascos" style="font-size:22px">—</div></div></div><span class="pill pill-n">Expedidos</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Lucro Total</div><div class="kval" id="fin-kpi-lucro" style="font-size:22px">—</div></div></div><span class="pill pill-n" id="fin-kpi-margem">— margem</span></div>
     </div>
+
+    <!-- Parâmetros de cálculo -->
+    <div class="fin-cfg">
+      <span class="fin-cfg-label">⚙ Parâmetros de cálculo</span>
+      <div class="fin-cfg-item">
+        <label>CMV / Frasco</label>
+        <span style="font-size:10px;color:var(--text-3);font-family:var(--font-mono)">R$</span>
+        <input class="fin-cfg-inp" id="cfg-cmv" type="number" step="0.01" value="27.38" onchange="finSaveCfg()">
+      </div>
+      <div class="fin-cfg-item">
+        <label>Taxa Plataforma</label>
+        <input class="fin-cfg-inp" id="cfg-taxa" type="number" step="0.01" value="7.25" onchange="finSaveCfg()">
+        <span style="font-size:10px;color:var(--text-3);font-family:var(--font-mono)">%</span>
+      </div>
+      <div class="fin-cfg-item">
+        <label>Custo Fixo / Dia</label>
+        <span style="font-size:10px;color:var(--text-3);font-family:var(--font-mono)">R$</span>
+        <input class="fin-cfg-inp" id="cfg-fixo" type="number" step="0.01" value="18.23" onchange="finSaveCfg()">
+      </div>
+      <div class="fin-cfg-item" style="min-width:auto;gap:8px">
+        <button onclick="cloudSyncNow()" style="background:var(--cyan);color:#000;border:none;border-radius:4px;padding:5px 12px;font-size:11px;font-family:var(--font-mono);font-weight:700;cursor:pointer;white-space:nowrap">↻ Sync Nuvem</button>
+        <span id="cloud-sync-status" style="font-size:10px;font-family:var(--font-mono);white-space:nowrap;color:var(--text-3)">—</span>
+      </div>
+    </div>
+
     <div class="tbl-card">
-      <div style="margin-bottom:14px"><div class="ct">Detalhamento por Dia</div><div class="cs">RECEITA, CUSTOS, LUCRO E INDICADORES DIÁRIOS</div></div>
-      <div class="tbl-scroll-wrap"><table>
-        <thead><tr><th>Data</th><th>Receita</th><th>Mkt</th><th>Logística</th><th>CMV</th><th>Taxas</th><th>Lucro</th><th>Margem</th><th>ROAS</th><th>CAC</th><th>Ticket</th></tr></thead>
-        <tbody>
-          <tr><td class="td-date">01/05</td><td class="td-receita">R$54.000</td><td>R$28.000</td><td>R$120</td><td>R$8.981</td><td>R$3.914</td><td class="td-lucro">R$7.567</td><td><span class="pill pill-n">14,0%</span></td><td style="font-weight:600;font-family:var(--font-mono)">1,93×</td><td style="color:var(--text-2);font-family:var(--font-mono)">R$298</td><td style="font-family:var(--font-mono)">R$574</td></tr>
-          <tr><td class="td-date">02/05</td><td class="td-receita">R$34.000</td><td>R$12.000</td><td>R$550</td><td>R$6.571</td><td>R$2.462</td><td class="td-lucro">R$10.899</td><td><span class="pill pill-g">32,1%</span></td><td style="font-weight:600;color:var(--green);font-family:var(--font-mono)">2,83×</td><td style="color:var(--text-2);font-family:var(--font-mono)">R$207</td><td style="font-family:var(--font-mono)">R$586</td></tr>
-          <tr><td class="td-date">03/05</td><td class="td-receita">R$320.542</td><td>R$150.000</td><td>R$12.000</td><td>R$17.797</td><td>R$22.497</td><td class="td-lucro">R$115.015</td><td><span class="pill pill-g">35,9%</span></td><td style="font-weight:600;font-family:var(--font-mono)">2,14×</td><td style="color:var(--text-2);font-family:var(--font-mono)">R$789</td><td style="font-family:var(--font-mono)">R$1.687</td></tr>
-          <tr style="background:var(--surface2)"><td class="td-date" style="color:var(--text-3)">TOTAL</td><td style="font-weight:700;color:var(--green);font-family:var(--font-mono)">R$408.542</td><td style="font-weight:700;font-family:var(--font-mono)">R$190.000</td><td style="font-weight:700;font-family:var(--font-mono)">R$12.670</td><td style="font-weight:700;font-family:var(--font-mono)">R$33.349</td><td style="font-weight:700;font-family:var(--font-mono)">R$28.873</td><td style="font-weight:700;color:var(--cyan);font-family:var(--font-mono)">R$133.480</td><td><span class="pill pill-g">27,3%</span></td><td style="font-weight:700;font-family:var(--font-mono)">2,30×</td><td style="font-weight:700;font-family:var(--font-mono)">R$431</td><td style="font-weight:700;font-family:var(--font-mono)">R$949</td></tr>
-        </tbody>
-      </table></div>
+      <div style="margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div>
+          <div class="ct">Detalhamento por Dia</div>
+          <div class="cs">COLUNAS <span style="color:var(--cyan);font-weight:700">AZUIS</span> = VOCÊ PREENCHE &nbsp;·&nbsp; DEMAIS SÃO AUTO-CALCULADAS</div>
+        </div>
+        <button class="btn-add-row" onclick="addFinRow()" style="margin:0">＋ Adicionar Dia</button>
+      </div>
+      <div class="tbl-scroll-wrap">
+        <table id="tbl-fin-diario">
+          <thead><tr>
+            <th class="th-manual">Data</th>
+            <th class="th-manual">Receita</th>
+            <th class="th-manual">Custo Mkt</th>
+            <th class="th-manual">Logística</th>
+            <th class="th-manual">Reembolso</th>
+            <th class="th-manual">V.1 Fr.</th>
+            <th class="th-manual">V.3 Fr.</th>
+            <th class="th-manual">V.6 Fr.</th>
+            <th class="th-calc">Vendas</th>
+            <th class="th-calc">Frascos</th>
+            <th class="th-calc">CMV</th>
+            <th class="th-calc">Taxas</th>
+            <th class="th-calc">Lucro</th>
+            <th class="th-calc">L./Pedido</th>
+            <th class="th-calc">CAC</th>
+            <th class="th-calc">ROAS</th>
+            <th class="th-calc">Ticket</th>
+            <th class="th-calc">Tx.Remb.</th>
+            <th class="th-calc">Margem</th>
+            <th></th>
+          </tr></thead>
+          <tbody id="fin-tbody">
+            <tr><td colspan="20" style="text-align:center;color:var(--text-3);padding:32px;font-family:var(--font-mono);font-size:11px">Clique em ＋ Adicionar Dia para começar</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -1814,7 +1900,7 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   <div class="page" id="pg-vendas-canal">
     <div class="banner">// <b>VENDAS POR CANAL</b> · Meta Ads · TikTok Ads · Google/YouTube</div>
     <div class="kg" style="margin-bottom:14px">
-      <div class="kc ac-green"><div class="kc-top"><div><div class="klabel">Receita Total Canais</div><div class="kval c-green" style="font-size:22px">R$408.542</div></div></div><span class="pill pill-g">3 canais ativos</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Receita Total Canais</div><div class="kval" style="font-size:22px">R$408.542</div></div></div><span class="pill pill-g">3 canais ativos</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Meta Ads</div><div class="kval" style="font-size:22px">R$280.000</div></div></div><span class="pill pill-g">Principal canal</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">TikTok Ads</div><div class="kval" style="font-size:22px">R$95.000</div></div></div><span class="pill pill-v">Em crescimento</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Google/YouTube</div><div class="kval" style="font-size:22px">R$33.542</div></div></div><span class="pill pill-a">Secundário</span></div>
@@ -1838,9 +1924,9 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   <div class="page" id="pg-fluxo">
     <div class="banner">// <b>FLUXO DE CAIXA</b> · Entradas, saídas e saldo disponível</div>
     <div class="kg" style="margin-bottom:14px">
-      <div class="kc ac-green"><div class="kc-top"><div><div class="klabel">Saldo Atual</div><div class="kval c-green" style="font-size:22px">R$50.661</div></div></div><span class="pill pill-g">▲ Positivo</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Total Entradas</div><div class="kval" style="font-size:22px">R$100.000</div></div></div><span class="pill pill-g">Aporte capital</span></div>
-      <div class="kc ac-red"><div class="kc-top"><div><div class="klabel">Total Saídas</div><div class="kval c-red" style="font-size:22px">R$49.339</div></div></div><span class="pill pill-r">Pré-lançamento</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Saldo Atual</div><div class="kval" style="font-size:22px">R$50.661</div></div></div><span class="pill pill-g">▲ Positivo</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Total Saídas</div><div class="kval" style="font-size:22px">R$49.339</div></div></div><span class="pill pill-r">Pré-lançamento</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Runway</div><div class="kval" style="font-size:22px">~83 dias</div></div></div><span class="pill pill-n">Queima R$600/mês</span></div>
     </div>
     <div class="inv-card">
@@ -1856,24 +1942,277 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
 
   <!-- ════════════════ PRECIFICAÇÃO ════════════════ -->
   <div class="page" id="pg-precificacao">
-    <div class="banner">// <b>PRECIFICAÇÃO</b> · Estrutura de preços e margens por SKU</div>
+    <div class="banner">// <b>PRECIFICAÇÃO</b> · Decomposição completa de margem · Cenários CAC · Desconto máximo</div>
+
+    <!-- KPIs -->
+    <div class="kg" style="margin-bottom:14px">
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Ticket Médio</div><div class="kval" style="font-size:22px">R$651</div></div></div><span class="pill pill-n">342 pedidos · ponderado</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Margem Bruta Média</div><div class="kval" style="font-size:22px">71,8%</div></div></div><span class="pill pill-g">Pós CMV + taxas + frete</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Maior MB por Pedido</div><div class="kval" style="font-size:22px">Kit 6</div></div></div><span class="pill pill-g">R$713 / pedido</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">CAC Máx. Break-Even</div><div class="kval" style="font-size:22px">R$414</div></div></div><span class="pill pill-a">Kit 3 · mais vendido</span></div>
+    </div>
+
+    <!-- Tabela 1: Decomposição completa de margem -->
     <div class="tbl-card" style="margin-bottom:14px">
-      <div style="margin-bottom:14px"><div class="ct">Estrutura de Preços por Kit</div><div class="cs">PREÇO DE VENDA, CMV E MARGEM POR PRODUTO</div></div>
-      <div class="tbl-scroll-wrap"><table id="tbl-precificacao">
-        <thead><tr><th>Produto</th><th>Preço Venda</th><th>CMV Unit.</th><th>Margem Bruta</th><th>Margem %</th><th>Pedidos</th><th>Receita Gerada</th><th></th></tr></thead>
+      <div style="margin-bottom:14px"><div class="ct">Decomposição de Margem por SKU</div><div class="cs">TODOS OS CUSTOS DIRETOS · CMV · TAXA PLATAFORMA · GATEWAY · LOGÍSTICA</div></div>
+      <div class="tbl-scroll-wrap"><table>
+        <thead><tr>
+          <th>Produto</th><th>Preço</th><th>Frascos</th>
+          <th style="color:var(--amber)">CMV</th>
+          <th style="color:var(--amber)">Taxa Plat. 7,25%</th>
+          <th style="color:var(--amber)">Taxa GW R$2</th>
+          <th style="color:var(--amber)">Logística</th>
+          <th style="color:var(--text-2)">Custo Direto</th>
+          <th style="color:var(--green)">MB R$</th>
+          <th style="color:var(--green)">MB %</th>
+        </tr></thead>
         <tbody>
-          <tr><td class="td-date">Kit 1 Frasco</td><td style="font-family:var(--font-mono)">R$247</td><td style="font-family:var(--font-mono)">R$27,38</td><td class="td-lucro">R$219,62</td><td><span class="pill pill-n">88,9%</span></td><td style="font-family:var(--font-mono)">84</td><td class="td-receita">R$20.748</td><td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td></tr>
-          <tr><td class="td-date">Kit 3 Frascos</td><td style="font-family:var(--font-mono)">R$597</td><td style="font-family:var(--font-mono)">R$82,14</td><td class="td-lucro">R$514,86</td><td><span class="pill pill-g">86,2%</span></td><td style="font-family:var(--font-mono)">138</td><td class="td-receita">R$82.386</td><td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td></tr>
-          <tr><td class="td-date">Kit 6 Frascos</td><td style="font-family:var(--font-mono)">R$997</td><td style="font-family:var(--font-mono)">R$164,28</td><td class="td-lucro">R$832,72</td><td><span class="pill pill-g">83,5%</span></td><td style="font-family:var(--font-mono)">120</td><td class="td-receita">R$119.640</td><td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td></tr>
+          <tr>
+            <td class="td-date">Kit 1 Frasco</td>
+            <td style="font-family:var(--font-mono);font-weight:600">R$247,00</td>
+            <td style="font-family:var(--font-mono);text-align:center">1</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$27,38</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$17,91</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$2,00</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$28,00</td>
+            <td style="font-family:var(--font-mono);font-weight:700;background:var(--surface2)">R$75,29</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:var(--green)">R$171,71</td>
+            <td><span class="pill pill-n">69,5%</span></td>
+          </tr>
+          <tr>
+            <td class="td-date">Kit 3 Frascos</td>
+            <td style="font-family:var(--font-mono);font-weight:600">R$597,00</td>
+            <td style="font-family:var(--font-mono);text-align:center">3</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$82,14</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$43,28</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$2,00</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$35,00</td>
+            <td style="font-family:var(--font-mono);font-weight:700;background:var(--surface2)">R$162,42</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:var(--green)">R$434,58</td>
+            <td><span class="pill pill-g">72,8%</span></td>
+          </tr>
+          <tr>
+            <td class="td-date">Kit 6 Frascos</td>
+            <td style="font-family:var(--font-mono);font-weight:600">R$997,00</td>
+            <td style="font-family:var(--font-mono);text-align:center">6</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$164,28</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$72,28</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$2,00</td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$45,00</td>
+            <td style="font-family:var(--font-mono);font-weight:700;background:var(--surface2)">R$283,56</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:var(--green)">R$713,44</td>
+            <td><span class="pill pill-g">71,6%</span></td>
+          </tr>
+          <tr class="tbl-total-row" style="background:var(--surface2)">
+            <td class="td-date" style="color:var(--text-3)">PONDERADO</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:var(--cyan)">R$651</td>
+            <td style="text-align:center;color:var(--text-3)">—</td>
+            <td style="color:var(--text-3)">—</td><td style="color:var(--text-3)">—</td><td style="color:var(--text-3)">—</td><td style="color:var(--text-3)">—</td>
+            <td style="font-family:var(--font-mono);font-weight:700">—</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:var(--green)">R$468</td>
+            <td><span class="pill pill-g">71,8%</span></td>
+          </tr>
         </tbody>
       </table></div>
     </div>
-    <div class="sg">
-      <div class="sc"><div class="sl">CMV / Frasco</div><div class="sv">R$27,38</div><div style="font-size:10px;color:var(--text-3);font-family:var(--font-mono)">Custo de produção unit.</div></div>
-      <div class="sc"><div class="sl">Ticket Médio</div><div class="sv">R$949</div><div style="font-size:10px;color:var(--text-3);font-family:var(--font-mono)">Média ponderada dos kits</div></div>
-      <div class="sc"><div class="sl">Margem Bruta Média</div><div class="sv" style="color:var(--green)">86,2%</div><span class="pill pill-g">▲ Alta margem</span></div>
-      <div class="sc"><div class="sl">Mix Mais Vendido</div><div class="sv" style="color:var(--cyan);font-size:16px">Kit 3 Frascos</div><span class="pill pill-b">43% dos pedidos</span></div>
+
+    <!-- Tabela 2: Lucro líquido por pedido com CAC atual -->
+    <div class="tbl-card" style="margin-bottom:14px">
+      <div style="margin-bottom:14px"><div class="ct">Lucro Líquido por Pedido — Após Marketing</div><div class="cs">MARGEM BRUTA MENOS CAC MÉDIO ATUAL (R$556) E CUSTO FIXO ALOCADO (R$19,86)</div></div>
+      <div class="tbl-scroll-wrap"><table>
+        <thead><tr>
+          <th>Produto</th><th>Marg. Bruta</th><th>CAC Atual</th><th>C. Fixo/Ped.</th>
+          <th style="color:var(--cyan)">Lucro Líq./Pedido</th>
+          <th style="color:var(--cyan)">Marg. Líq. %</th>
+          <th>Status</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td class="td-date">Kit 1 Frasco</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$171,71</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">R$556,00</td>
+            <td style="font-family:var(--font-mono);color:var(--text-3)">R$19,86</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:var(--red)">− R$404,15</td>
+            <td><span class="pill pill-r">−163,6%</span></td>
+            <td><span class="pill pill-r">⚠ Venda isolada</span></td>
+          </tr>
+          <tr>
+            <td class="td-date">Kit 3 Frascos</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$434,58</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">R$556,00</td>
+            <td style="font-family:var(--font-mono);color:var(--text-3)">R$19,86</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:var(--red)">− R$141,28</td>
+            <td><span class="pill pill-r">−23,7%</span></td>
+            <td><span class="pill pill-a">Reduzir CAC</span></td>
+          </tr>
+          <tr>
+            <td class="td-date">Kit 6 Frascos</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$713,44</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">R$556,00</td>
+            <td style="font-family:var(--font-mono);color:var(--text-3)">R$19,86</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:var(--green)">+ R$137,58</td>
+            <td><span class="pill pill-g">+13,8%</span></td>
+            <td><span class="pill pill-g">✓ Lucrativo</span></td>
+          </tr>
+        </tbody>
+      </table></div>
+      <div style="margin-top:12px;padding:10px 14px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--cyan);font-size:11px;font-family:var(--font-mono);color:var(--text-2)">
+        💡 Com CAC atual de R$556, apenas o Kit 6 é lucrativo por pedido. Para o Kit 3 fechar no zero: <strong style="color:var(--cyan)">CAC ≤ R$414</strong>. Para o Kit 1: <strong style="color:var(--cyan)">CAC ≤ R$151</strong>. Foco em ROAS alto e em empurrar o mix para Kit 6 são as principais alavancas de margem.
+      </div>
     </div>
+
+    <!-- Tabela 3: Sensibilidade CAC × Lucro/Pedido -->
+    <div class="tbl-card" style="margin-bottom:14px">
+      <div style="margin-bottom:14px"><div class="ct">Sensibilidade de CAC × Lucro por Pedido</div><div class="cs">LUCRO = MB − CAC − CUSTO FIXO/PEDIDO (R$19,86) &nbsp;·&nbsp; 🟢 LUCRATIVO &nbsp;·&nbsp; 🔴 PREJUÍZO</div></div>
+      <div class="tbl-scroll-wrap"><table>
+        <thead><tr>
+          <th>CAC</th>
+          <th>Kit 1 — R$247</th>
+          <th>Kit 3 — R$597</th>
+          <th>Kit 6 — R$997</th>
+          <th>Ticket Médio Pond.</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td class="td-date">R$100</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$51,85</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$314,72</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$593,58</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$348</td>
+          </tr>
+          <tr>
+            <td class="td-date">R$200</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">− R$48,15</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$214,72</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$493,58</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$248</td>
+          </tr>
+          <tr>
+            <td class="td-date">R$300</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">− R$148,15</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$114,72</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$393,58</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$148</td>
+          </tr>
+          <tr>
+            <td class="td-date">R$400</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">− R$248,15</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$14,72</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$293,58</td>
+            <td style="font-family:var(--font-mono);color:var(--text-3)">+ R$48</td>
+          </tr>
+          <tr>
+            <td class="td-date">R$500</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">− R$348,15</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">− R$85,28</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$193,58</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">− R$52</td>
+          </tr>
+          <tr style="background:rgba(0,229,255,0.06);outline:1px solid rgba(0,229,255,0.25)">
+            <td class="td-date" style="color:var(--cyan);font-weight:700">R$556 ← atual</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">− R$404,15</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">− R$141,28</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">+ R$137,58</td>
+            <td style="font-family:var(--font-mono);color:var(--red)">− R$108</td>
+          </tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <!-- Cards por SKU -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px">
+      <!-- Kit 1 -->
+      <div class="tbl-card" style="margin:0">
+        <div style="margin-bottom:12px"><div class="ct" style="font-size:13px">Kit 1 Frasco</div><div style="font-size:24px;font-weight:800;font-family:var(--font-mono);color:var(--cyan)">R$247</div></div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:11px;font-family:var(--font-mono)">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">CMV</span><span style="color:var(--amber)">R$27,38</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Taxas (plat.+gw)</span><span style="color:var(--amber)">R$19,91</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Logística</span><span style="color:var(--amber)">R$28,00</span></div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:7px"><span style="color:var(--text-3)">Custo Direto Total</span><span style="color:var(--text-2);font-weight:700">R$75,29</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Margem Bruta</span><span style="color:var(--green);font-weight:700">R$171,71 · 69,5%</span></div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:7px"><span style="color:var(--text-3)">CAC máx. break-even</span><span style="color:var(--cyan);font-weight:700">R$151</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Preço mín. (sem mkt)</span><span style="color:var(--text-3)">R$95,29</span></div>
+        </div>
+      </div>
+      <!-- Kit 3 -->
+      <div class="tbl-card" style="margin:0;border:1px solid rgba(0,229,255,0.4);box-shadow:0 0 16px rgba(0,229,255,0.07)">
+        <div style="margin-bottom:12px">
+          <div class="ct" style="font-size:13px">Kit 3 Frascos <span class="pill pill-b" style="font-size:9px;vertical-align:middle;margin-left:4px">MAIS VENDIDO</span></div>
+          <div style="font-size:24px;font-weight:800;font-family:var(--font-mono);color:var(--cyan)">R$597</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:11px;font-family:var(--font-mono)">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">CMV</span><span style="color:var(--amber)">R$82,14</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Taxas (plat.+gw)</span><span style="color:var(--amber)">R$45,28</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Logística</span><span style="color:var(--amber)">R$35,00</span></div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:7px"><span style="color:var(--text-3)">Custo Direto Total</span><span style="color:var(--text-2);font-weight:700">R$162,42</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Margem Bruta</span><span style="color:var(--green);font-weight:700">R$434,58 · 72,8%</span></div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:7px"><span style="color:var(--text-3)">CAC máx. break-even</span><span style="color:var(--cyan);font-weight:700">R$414</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Preço mín. (sem mkt)</span><span style="color:var(--text-3)">R$182,42</span></div>
+        </div>
+      </div>
+      <!-- Kit 6 -->
+      <div class="tbl-card" style="margin:0">
+        <div style="margin-bottom:12px">
+          <div class="ct" style="font-size:13px">Kit 6 Frascos <span class="pill pill-g" style="font-size:9px;vertical-align:middle;margin-left:4px">MAIOR MARGEM R$</span></div>
+          <div style="font-size:24px;font-weight:800;font-family:var(--font-mono);color:var(--cyan)">R$997</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:11px;font-family:var(--font-mono)">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">CMV</span><span style="color:var(--amber)">R$164,28</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Taxas (plat.+gw)</span><span style="color:var(--amber)">R$74,28</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Logística</span><span style="color:var(--amber)">R$45,00</span></div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:7px"><span style="color:var(--text-3)">Custo Direto Total</span><span style="color:var(--text-2);font-weight:700">R$283,56</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Margem Bruta</span><span style="color:var(--green);font-weight:700">R$713,44 · 71,6%</span></div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:7px"><span style="color:var(--text-3)">CAC máx. break-even</span><span style="color:var(--cyan);font-weight:700">R$693</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Preço mín. (sem mkt)</span><span style="color:var(--text-3)">R$303,56</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabela 4: Desconto máximo -->
+    <div class="tbl-card">
+      <div style="margin-bottom:14px"><div class="ct">Impacto do Desconto na Margem Bruta</div><div class="cs">MARGEM BRUTA RESULTANTE A CADA NÍVEL DE DESCONTO · BASE: PREÇO CHEIO</div></div>
+      <div class="tbl-scroll-wrap"><table>
+        <thead><tr>
+          <th>Produto</th><th>Preço Cheio</th>
+          <th>Desc. 10%</th><th>Desc. 15%</th><th>Desc. 20%</th><th>Desc. 30%</th>
+          <th>Custo Direto</th><th>Desc. Máx.</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td class="td-date">Kit 1 Frasco</td>
+            <td style="font-family:var(--font-mono);font-weight:600">R$247,00</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$222,30 <span style="font-size:10px;color:var(--text-3)">66,1%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$209,95 <span style="font-size:10px;color:var(--text-3)">64,2%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--text-2)">R$197,60 <span style="font-size:10px;color:var(--text-3)">61,9%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--amber)">R$172,90 <span style="font-size:10px;color:var(--text-3)">56,4%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--text-3)">R$75,29</td>
+            <td><span class="pill pill-n">69,5% máx.</span></td>
+          </tr>
+          <tr>
+            <td class="td-date">Kit 3 Frascos</td>
+            <td style="font-family:var(--font-mono);font-weight:600">R$597,00</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$537,30 <span style="font-size:10px;color:var(--text-3)">69,8%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$507,45 <span style="font-size:10px;color:var(--text-3)">68,0%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$477,60 <span style="font-size:10px;color:var(--text-3)">66,0%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--text-2)">R$417,90 <span style="font-size:10px;color:var(--text-3)">61,1%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--text-3)">R$162,42</td>
+            <td><span class="pill pill-g">72,8% máx.</span></td>
+          </tr>
+          <tr>
+            <td class="td-date">Kit 6 Frascos</td>
+            <td style="font-family:var(--font-mono);font-weight:600">R$997,00</td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$897,30 <span style="font-size:10px;color:var(--text-3)">68,4%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$847,45 <span style="font-size:10px;color:var(--text-3)">66,5%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$797,60 <span style="font-size:10px;color:var(--text-3)">64,5%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--green)">R$697,90 <span style="font-size:10px;color:var(--text-3)">59,4%</span></td>
+            <td style="font-family:var(--font-mono);color:var(--text-3)">R$283,56</td>
+            <td><span class="pill pill-g">71,6% máx.</span></td>
+          </tr>
+        </tbody>
+      </table></div>
+      <div style="margin-top:10px;font-size:10px;color:var(--text-3);font-family:var(--font-mono)">* Margem Bruta % = (Preço com desconto − Custo Direto) ÷ Preço com desconto &nbsp;·&nbsp; Desconto máximo calculado sobre custo direto (CMV + taxas + logística), sem considerar CAC</div>
+    </div>
+
   </div>
 
 
@@ -1881,7 +2220,7 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   <div class="page" id="pg-cmv">
     <div class="banner">// <b>CMV & PRODUÇÃO</b> · Custo de mercadoria vendida e controle de estoque</div>
     <div class="kg" style="margin-bottom:14px">
-      <div class="kc ac-amber"><div class="kc-top"><div><div class="klabel">CMV Total</div><div class="kval c-amber" style="font-size:22px">R$33.349</div></div></div><span class="pill pill-v">8,2% da receita</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">CMV Total</div><div class="kval" style="font-size:22px">R$33.349</div></div></div><span class="pill pill-v">8,2% da receita</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">CMV / Frasco</div><div class="kval" style="font-size:22px">R$27,38</div></div></div><span class="pill pill-g">Custo unitário</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Estoque Inicial</div><div class="kval" style="font-size:22px">1.000 un.</div></div></div><span class="pill pill-a">Fabricação: Jah</span></div>
       <div class="kc ac-red"><div class="kc-top"><div><div class="klabel">Estoque Consumido</div><div class="kval c-red" style="font-size:22px">1.218 un.</div></div></div><span class="pill pill-r">⚠ Repor estoque</span></div>
@@ -1906,7 +2245,7 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   <div class="page" id="pg-custos-fixos">
     <div class="banner">// <b>CUSTOS FIXOS</b> · Despesas recorrentes mensais da operação</div>
     <div class="kg" style="margin-bottom:14px">
-      <div class="kc ac-green"><div class="kc-top"><div><div class="klabel">Custo Fixo/Mês</div><div class="kval c-green" style="font-size:22px">R$613</div></div></div><span class="pill pill-g">▲ Muito baixo</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Custo Fixo/Mês</div><div class="kval" style="font-size:22px">R$613</div></div></div><span class="pill pill-g">▲ Muito baixo</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Custo Fixo/Dia</div><div class="kval" style="font-size:22px">R$20</div></div></div><span class="pill pill-n">R$18,23 + hospedagem</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">% da Receita</div><div class="kval" style="font-size:22px">0,15%</div></div></div><span class="pill pill-g">Estrutura enxuta</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Itens Cadastrados</div><div class="kval" style="font-size:22px">2 fixos</div></div></div><span class="pill pill-n">+ variáveis</span></div>
@@ -1930,7 +2269,7 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
   <div class="page" id="pg-equilibrio">
     <div class="banner">// <b>PONTO DE EQUILÍBRIO</b> · Volume mínimo para cobertura de todos os custos</div>
     <div class="kg" style="margin-bottom:14px">
-      <div class="kc ac-green"><div class="kc-top"><div><div class="klabel">Cobertura Invest.</div><div class="kval c-green" style="font-size:22px">2,71×</div></div></div><span class="pill pill-g">▲ Lucro cobre</span></div>
+      <div class="kc"><div class="kc-top"><div><div class="klabel">Cobertura Invest.</div><div class="kval" style="font-size:22px">2,71×</div></div></div><span class="pill pill-g">▲ Lucro cobre</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Break-Even Mensal</div><div class="kval" style="font-size:22px">R$2.569</div></div></div><span class="pill pill-n">Só custos fixos</span></div>
       <div class="kc"><div class="kc-top"><div><div class="klabel">Frascos Break-Even</div><div class="kval" style="font-size:22px">~3 un./mês</div></div></div><span class="pill pill-g">Patamar mínimo</span></div>
       <div class="kc ac-amber"><div class="kc-top"><div><div class="klabel">Recuperação Invest.</div><div class="kval c-amber" style="font-size:22px">R$49.290</div></div></div><span class="pill pill-g">▲ Já recuperado</span></div>
@@ -2015,6 +2354,19 @@ function toggleSidebar() {
   document.querySelector('.sb-overlay').classList.toggle('show');
 }
 
+// ── SIDEBAR COLLAPSE (desktop) ──
+function toggleSbCollapse() {
+  const collapsed = document.body.classList.toggle('sb-collapsed');
+  localStorage.setItem('sb-collapsed', collapsed ? '1' : '0');
+}
+
+// Restore collapse state on load
+(function() {
+  if (localStorage.getItem('sb-collapsed') === '1') {
+    document.body.classList.add('sb-collapsed');
+  }
+})();
+
 // ── INLINE EDITING: TABLE ROWS ──
 function editRow(btn) {
   const tr = btn.closest('tr');
@@ -2080,17 +2432,83 @@ function addCustoRow() {
   const tbody = tbl.querySelector('tbody');
   const totalRow = tbody.querySelector('.tbl-total-row');
   const newRow = document.createElement('tr');
+  newRow.classList.add('editing');
+
+  const daysInMonth = (function() {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  })();
+
   newRow.innerHTML =
-    '<td class="td-date">Novo Item</td>' +
-    '<td style="color:var(--text-2)">—</td>' +
-    '<td style="font-weight:700;font-family:var(--font-mono)">R$0</td>' +
-    '<td style="font-family:var(--font-mono)">R$0,00</td>' +
-    '<td><span class="pill pill-n">—</span></td>' +
-    '<td><span class="pill pill-g">Ativo</span></td>' +
-    '<td class="td-actions"><button class="row-edit-btn" onclick="editRow(this)">✏️</button></td>';
+    '<td class="td-date"><input class="edit-input" placeholder="Nome do custo" value="Novo Item"></td>' +
+    '<td><input class="edit-input" placeholder="Categoria" value="—"></td>' +
+    '<td><input class="edit-input cf-mes-input" placeholder="R$0,00" value="R$" style="font-weight:700;font-family:var(--font-mono);width:90px"></td>' +
+    '<td><input class="edit-input cf-dia-input" placeholder="Auto" readonly style="font-family:var(--font-mono);width:80px;opacity:.7"></td>' +
+    '<td><input class="edit-input" placeholder="—" value="—"></td>' +
+    '<td><input class="edit-input" placeholder="Ativo" value="Ativo"></td>' +
+    '<td class="td-actions">' +
+      '<button class="row-save-btn" title="Salvar">✓</button>' +
+      '<button class="row-cancel-btn" title="Cancelar">✗</button>' +
+    '</td>';
+
   tbody.insertBefore(newRow, totalRow);
-  // auto-open edit
-  editRow(newRow.querySelector('.row-edit-btn'));
+
+  const mesInput = newRow.querySelector('.cf-mes-input');
+  const diaInput = newRow.querySelector('.cf-dia-input');
+
+  // Place cursor at end of "R$"
+  mesInput.focus();
+  mesInput.setSelectionRange(2, 2);
+
+  // Auto-calc Valor/Dia when typing Valor/Mês
+  mesInput.addEventListener('input', function() {
+    const raw = this.value.replace(/[^0-9.,]/g, '').replace(',', '.');
+    const val = parseFloat(raw) || 0;
+    if (val > 0) {
+      diaInput.value = 'R$' + (val / daysInMonth).toFixed(2).replace('.', ',');
+    } else {
+      diaInput.value = '';
+    }
+  });
+
+  // Enforce "R$" prefix — prevent deleting it
+  mesInput.addEventListener('keydown', function(e) {
+    if ((e.key === 'Backspace' || e.key === 'Delete') && this.selectionStart <= 2 && this.selectionEnd <= 2) {
+      e.preventDefault();
+    }
+  });
+
+  // Save
+  newRow.querySelector('.row-save-btn').onclick = function() {
+    const cells = newRow.querySelectorAll('td:not(.td-actions)');
+    cells.forEach(td => {
+      const inp = td.querySelector('input');
+      if (!inp) return;
+      let v = inp.value.trim();
+      if (td.querySelector('.cf-mes-input') !== null) {
+        // ensure R$ prefix and bold mono style
+        if (!v.startsWith('R$')) v = 'R$' + v;
+        td.innerHTML = '<span style="font-weight:700;font-family:var(--font-mono)">' + v + '</span>';
+      } else if (td.querySelector('.cf-dia-input') !== null) {
+        if (!v.startsWith('R$') && v !== '') v = 'R$' + v;
+        td.innerHTML = '<span style="font-family:var(--font-mono)">' + (v || 'R$0,00') + '</span>';
+      } else if (v === 'Ativo' || v === 'ativo') {
+        td.innerHTML = '<span class="pill pill-g">Ativo</span>';
+      } else if (v === 'Inativo' || v === 'inativo') {
+        td.innerHTML = '<span class="pill pill-r">Inativo</span>';
+      } else {
+        td.innerHTML = v;
+      }
+    });
+    newRow.querySelector('.td-actions').innerHTML = '<button class="row-edit-btn" onclick="editRow(this)">✏️</button>';
+    newRow.classList.remove('editing');
+    recalcCustos();
+  };
+
+  // Cancel — remove row entirely since it was just added
+  newRow.querySelector('.row-cancel-btn').onclick = function() {
+    newRow.remove();
+  };
 }
 
 // ── INLINE EDITING: CMV BARS ──
@@ -2235,6 +2653,568 @@ document.querySelectorAll('.bar-hover').forEach(bar => {
     tt.classList.remove('show');
   });
 });
+
+// ══════════════════════════════════════════════════════════════
+// FINANCEIRO DIÁRIO — Entrada Manual + Auto-Cálculo + localStorage
+// ══════════════════════════════════════════════════════════════
+(function() {
+  const STORE_KEY = 'wooma-fin-diario-v2';
+  const STORE_CFG = 'wooma-fin-cfg-v1';
+  const DEF_CFG   = { cmvFrasco: 27.38, taxaPct: 7.25, custoFixoDia: 18.23 };
+
+  // ── Cloud sync — uses /api/data (Vercel KV, same project) ────
+  function setSyncStatus(state, msg) {
+    const el = document.getElementById('cloud-sync-status');
+    if (!el) return;
+    const map = { loading:'🔄', ok:'☁ ✓', error:'⚠', saving:'💾', idle:'☁' };
+    const col = { loading:'var(--cyan)', ok:'var(--green)', error:'var(--red)', saving:'var(--cyan)', idle:'var(--text-3)' };
+    el.style.color = col[state] || col.idle;
+    el.textContent = (map[state]||'') + (msg ? ' ' + msg : '');
+  }
+
+  async function cloudSave(rows, cfg) {
+    // skip when running on localhost (no API available)
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
+    setSyncStatus('saving', 'Salvando...');
+    try {
+      const r = await fetch('/api/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rows, cfg })
+      });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      setSyncStatus('ok', new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
+    } catch(e) {
+      setSyncStatus('error', 'Salvo local');
+    }
+  }
+
+  async function cloudLoad() {
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+      setSyncStatus('idle', 'Local'); return false;
+    }
+    setSyncStatus('loading', 'Carregando...');
+    try {
+      const r = await fetch('/api/data?_t=' + Date.now());
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const data = await r.json();
+      if (data.error) throw new Error(data.error);
+      if (data.rows && Array.isArray(data.rows) && data.rows.length > 0)
+        localStorage.setItem(STORE_KEY, JSON.stringify(data.rows));
+      if (data.cfg && typeof data.cfg === 'object' && Object.keys(data.cfg).length > 0)
+        localStorage.setItem(STORE_CFG, JSON.stringify(data.cfg));
+      setSyncStatus('ok', new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
+      return true;
+    } catch(e) {
+      setSyncStatus('error', 'Offline – local');
+      return false;
+    }
+  }
+
+  window.cloudSyncNow = async function() {
+    const ok = await cloudLoad();
+    if (ok) {
+      const cfg2 = getCfg();
+      const ce=document.getElementById('cfg-cmv'), te=document.getElementById('cfg-taxa'), fe=document.getElementById('cfg-fixo');
+      if(ce) ce.value=cfg2.cmvFrasco; if(te) te.value=cfg2.taxaPct; if(fe) fe.value=cfg2.custoFixoDia;
+    }
+    renderFinTable();
+  };
+
+  // ── Config ──────────────────────────────────────────────────
+  function getCfg() {
+    try { return Object.assign({}, DEF_CFG, JSON.parse(localStorage.getItem(STORE_CFG))); }
+    catch(e) { return Object.assign({}, DEF_CFG); }
+  }
+  window.finSaveCfg = function() {
+    const cfg = {
+      cmvFrasco:    parseFloat(document.getElementById('cfg-cmv')?.value)  || DEF_CFG.cmvFrasco,
+      taxaPct:      parseFloat(document.getElementById('cfg-taxa')?.value) || DEF_CFG.taxaPct,
+      custoFixoDia: parseFloat(document.getElementById('cfg-fixo')?.value) || DEF_CFG.custoFixoDia
+    };
+    localStorage.setItem(STORE_CFG, JSON.stringify(cfg));
+    renderFinTable();
+    cloudSave(getData(), cfg);
+  };
+
+  // ── Data persistence ─────────────────────────────────────────
+  function getData() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+    catch(e) { return []; }
+  }
+  function saveData(rows) {
+    localStorage.setItem(STORE_KEY, JSON.stringify(rows));
+    cloudSave(rows, getCfg());
+  }
+
+  // ── Parse input (accepts "1000", "1.000,50", "R$1.234,56") ──
+  function parseInp(s) {
+    if (!s && s !== 0) return 0;
+    s = String(s).replace(/[^0-9,.\-]/g, '');
+    if (s.includes('.') && s.includes(',')) s = s.replace(/\./g,'').replace(',','.');
+    else if (s.includes(',') && !s.includes('.')) s = s.replace(',','.');
+    return parseFloat(s) || 0;
+  }
+
+  // ── Auto-calc one row ────────────────────────────────────────
+  function calcRow(raw) {
+    const cfg = getCfg();
+    const vendas   = (raw.v1||0) + (raw.v3||0) + (raw.v6||0);
+    const frascos  = (raw.v1||0)*1 + (raw.v3||0)*3 + (raw.v6||0)*6;
+    const cmv      = frascos * cfg.cmvFrasco;
+    const taxas    = (raw.receita||0) * (cfg.taxaPct / 100) + vendas * 2;
+    const fixo     = cfg.custoFixoDia;
+    const lucro    = (raw.receita||0) - (raw.mkt||0) - (raw.logistica||0) - (raw.reembolso||0) - cmv - taxas - fixo;
+    const lucroPed = vendas > 0 ? lucro / vendas : 0;
+    const cac      = vendas > 0 ? (raw.mkt||0) / vendas : 0;
+    const roas     = (raw.mkt||0) > 0 ? (raw.receita||0) / (raw.mkt||0) : 0;
+    const ticket   = vendas > 0 ? (raw.receita||0) / vendas : 0;
+    const txReemb  = (raw.receita||0) > 0 ? (raw.reembolso||0) / (raw.receita||0) * 100 : 0;
+    const margem   = (raw.receita||0) > 0 ? lucro / (raw.receita||0) * 100 : 0;
+    return Object.assign({}, raw, { vendas, frascos, cmv, taxas, fixo, lucro, lucroPed, cac, roas, ticket, txReemb, margem });
+  }
+
+  // ── Formatters ───────────────────────────────────────────────
+  function fmtR(v, d) {
+    d = (d === undefined) ? 0 : d;
+    if (!isFinite(v)) return '—';
+    const neg = v < 0, abs = Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+    return (neg?'-':'') + 'R$\u00A0' + abs;
+  }
+  function fmtPct(v) { return isFinite(v) ? v.toFixed(1) + '%' : '—'; }
+  function fmtInt(v) { return isFinite(v) ? Math.round(v).toLocaleString('pt-BR') : '—'; }
+  function pillC(v)  { return !isFinite(v) ? 'pill-n' : v >= 20 ? 'pill-g' : v >= 0 ? 'pill-n' : 'pill-r'; }
+
+  // ── Row display HTML ──────────────────────────────────────────
+  function rowDisplayHTML(r, idx) {
+    const roasCol = r.roas >= 2.5 ? 'var(--green)' : r.roas >= 1.5 ? 'var(--text)' : 'var(--red)';
+    const lucCol  = r.lucro < 0 ? 'var(--red)' : 'var(--green)';
+    return (
+      `<td class="td-date">${r.date||'—'}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:600;color:var(--green)">${fmtR(r.receita)}</td>`+
+      `<td style="font-family:var(--font-mono)">${fmtR(r.mkt)}</td>`+
+      `<td style="font-family:var(--font-mono)">${fmtR(r.logistica)}</td>`+
+      `<td style="font-family:var(--font-mono);color:var(--red)">${fmtR(r.reembolso)}</td>`+
+      `<td style="font-family:var(--font-mono);text-align:center">${r.v1||0}</td>`+
+      `<td style="font-family:var(--font-mono);text-align:center">${r.v3||0}</td>`+
+      `<td style="font-family:var(--font-mono);text-align:center">${r.v6||0}</td>`+
+      `<td class="fin-calc" style="text-align:center">${fmtInt(r.vendas)}</td>`+
+      `<td class="fin-calc" style="text-align:center">${fmtInt(r.frascos)}</td>`+
+      `<td class="fin-calc">${fmtR(r.cmv,2)}</td>`+
+      `<td class="fin-calc">${fmtR(r.taxas,2)}</td>`+
+      `<td class="fin-calc" style="font-weight:700;color:${lucCol}">${fmtR(r.lucro,2)}</td>`+
+      `<td class="fin-calc">${fmtR(r.lucroPed,2)}</td>`+
+      `<td class="fin-calc">${fmtR(r.cac,2)}</td>`+
+      `<td class="fin-calc" style="font-weight:700;color:${roasCol}">${isFinite(r.roas)?r.roas.toFixed(2).replace('.',',')+'×':'—'}</td>`+
+      `<td class="fin-calc">${fmtR(r.ticket,2)}</td>`+
+      `<td class="fin-calc">${fmtPct(r.txReemb)}</td>`+
+      `<td><span class="pill ${pillC(r.margem)}">${fmtPct(r.margem)}</span></td>`+
+      `<td class="td-actions">`+
+        `<button class="row-edit-btn" onclick="finEditRow(${idx})" title="Editar">✏️</button>`+
+        `<button class="row-edit-btn" onclick="finDeleteRow(${idx})" title="Excluir" style="color:var(--red)">✕</button>`+
+      `</td>`
+    );
+  }
+
+  // ── Row form HTML (inputs for manual columns + live calc cells) ──
+  function rowFormHTML(r) {
+    const v = r || {};
+    return (
+      `<td><input class="edit-input fin-inp" name="fi-date" placeholder="01/05" value="${v.date||''}" style="width:46px"></td>`+
+      `<td><input class="edit-input fin-inp" name="fi-receita" placeholder="0" value="${v.receita||''}" style="width:80px"></td>`+
+      `<td><input class="edit-input fin-inp" name="fi-mkt" placeholder="0" value="${v.mkt||''}" style="width:80px"></td>`+
+      `<td><input class="edit-input fin-inp" name="fi-log" placeholder="0" value="${v.logistica||''}" style="width:72px"></td>`+
+      `<td><input class="edit-input fin-inp" name="fi-remb" placeholder="0" value="${v.reembolso||''}" style="width:72px"></td>`+
+      `<td><input class="edit-input fin-inp" name="fi-v1" placeholder="0" value="${v.v1||''}" style="width:38px;text-align:center"></td>`+
+      `<td><input class="edit-input fin-inp" name="fi-v3" placeholder="0" value="${v.v3||''}" style="width:38px;text-align:center"></td>`+
+      `<td><input class="edit-input fin-inp" name="fi-v6" placeholder="0" value="${v.v6||''}" style="width:38px;text-align:center"></td>`+
+      // live-calculated read-only cells
+      `<td class="fin-calc fin-lv-vendas" style="text-align:center">—</td>`+
+      `<td class="fin-calc fin-lv-frascos" style="text-align:center">—</td>`+
+      `<td class="fin-calc fin-lv-cmv">—</td>`+
+      `<td class="fin-calc fin-lv-taxas">—</td>`+
+      `<td class="fin-calc fin-lv-lucro" style="font-weight:700">—</td>`+
+      `<td class="fin-calc fin-lv-lupd">—</td>`+
+      `<td class="fin-calc fin-lv-cac">—</td>`+
+      `<td class="fin-calc fin-lv-roas" style="font-weight:700">—</td>`+
+      `<td class="fin-calc fin-lv-ticket">—</td>`+
+      `<td class="fin-calc fin-lv-txremb">—</td>`+
+      `<td class="fin-lv-margem">—</td>`
+    );
+  }
+
+  // Wire real-time calculation on a row's inputs
+  function wireRowLive(tr) {
+    function getI(name) { return parseInp(tr.querySelector('[name="'+name+'"]')?.value||'0'); }
+    function setC(cls, val, col) {
+      const el = tr.querySelector('.'+cls);
+      if (!el) return;
+      el.textContent = val;
+      if (col) el.style.color = col;
+    }
+    function recalc() {
+      const c = calcRow({
+        receita:   getI('fi-receita'), mkt: getI('fi-mkt'),
+        logistica: getI('fi-log'),     reembolso: getI('fi-remb'),
+        v1: Math.round(getI('fi-v1')), v3: Math.round(getI('fi-v3')), v6: Math.round(getI('fi-v6'))
+      });
+      setC('fin-lv-vendas',  fmtInt(c.vendas));
+      setC('fin-lv-frascos', fmtInt(c.frascos));
+      setC('fin-lv-cmv',     fmtR(c.cmv,2));
+      setC('fin-lv-taxas',   fmtR(c.taxas,2));
+      setC('fin-lv-lucro',   fmtR(c.lucro,2), c.lucro<0?'var(--red)':'var(--green)');
+      setC('fin-lv-lupd',    fmtR(c.lucroPed,2));
+      setC('fin-lv-cac',     fmtR(c.cac,2));
+      setC('fin-lv-roas',    isFinite(c.roas)?c.roas.toFixed(2).replace('.',',')+'×':'—',
+                             c.roas>=2.5?'var(--green)':c.roas>=1.5?'var(--text)':'var(--red)');
+      setC('fin-lv-ticket',  fmtR(c.ticket,2));
+      setC('fin-lv-txremb',  fmtPct(c.txReemb));
+      const mEl = tr.querySelector('.fin-lv-margem');
+      if (mEl) mEl.innerHTML = '<span class="pill '+pillC(c.margem)+'">'+fmtPct(c.margem)+'</span>';
+    }
+    tr.querySelectorAll('.fin-inp').forEach(inp => inp.addEventListener('input', recalc));
+    recalc(); // fill calculated cells from pre-filled values immediately
+  }
+
+  // Read form values from a row
+  function readFormRaw(tr) {
+    return {
+      date:      tr.querySelector('[name="fi-date"]').value.trim(),
+      receita:   parseInp(tr.querySelector('[name="fi-receita"]').value),
+      mkt:       parseInp(tr.querySelector('[name="fi-mkt"]').value),
+      logistica: parseInp(tr.querySelector('[name="fi-log"]').value),
+      reembolso: parseInp(tr.querySelector('[name="fi-remb"]').value),
+      v1: Math.round(parseInp(tr.querySelector('[name="fi-v1"]').value)),
+      v3: Math.round(parseInp(tr.querySelector('[name="fi-v3"]').value)),
+      v6: Math.round(parseInp(tr.querySelector('[name="fi-v6"]').value))
+    };
+  }
+
+  // ── Render full table ─────────────────────────────────────────
+  function renderFinTable() {
+    const rows  = getData();
+    const tbody = document.getElementById('fin-tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    if (rows.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="20" style="text-align:center;color:var(--text-3);padding:32px;font-family:var(--font-mono);font-size:11px">Clique em ＋ Adicionar Dia para começar</td></tr>';
+      updateFinKPIs([]);
+      return;
+    }
+
+    const calcd = rows.map(calcRow);
+    let totRec=0, totVen=0, totFr=0, totLuc=0, totMkt=0, totLog=0, totCmv=0, totTax=0, totRemb=0;
+    let totV1=0, totV3=0, totV6=0;
+    let firstDia='', lastDia='';
+
+    calcd.forEach((r, idx) => {
+      totRec  += r.receita||0; totVen  += r.vendas||0;  totFr   += r.frascos||0;
+      totLuc  += r.lucro||0;   totMkt  += r.mkt||0;     totLog  += r.logistica||0;
+      totCmv  += r.cmv||0;     totTax  += r.taxas||0;   totRemb += r.reembolso||0;
+      totV1   += r.v1||0;      totV3   += r.v3||0;      totV6   += r.v6||0;
+      if (idx===0) firstDia = r.date||''; lastDia = r.date||'';
+      const tr = document.createElement('tr');
+      tr.dataset.idx = idx;
+      tr.innerHTML = rowDisplayHTML(r, idx);
+      tbody.appendChild(tr);
+    });
+
+    // Total row — weighted averages for ratio columns
+    const margTot   = totRec > 0  ? totLuc/totRec*100   : NaN;
+    const lucPedTot = totVen > 0  ? totLuc/totVen        : NaN;
+    const cacTot    = totVen > 0  ? totMkt/totVen        : NaN;
+    const roasTot   = totMkt > 0  ? totRec/totMkt        : NaN;
+    const tickTot   = totVen > 0  ? totRec/totVen        : NaN;
+    const txRembTot = totRec > 0  ? totRemb/totRec*100   : NaN;
+    const roasCol   = roasTot>=2.5?'var(--green)':roasTot>=1.5?'var(--text)':'var(--red)';
+
+    const totTr = document.createElement('tr');
+    totTr.style.cssText = 'background:var(--surface2);border-top:1px solid rgba(255,255,255,0.06)';
+    totTr.innerHTML =
+      `<td class="td-date" style="color:var(--text-3);font-weight:700">${calcd.length} DIAS</td>`+
+      `<td style="font-weight:700;color:var(--green);font-family:var(--font-mono)">${fmtR(totRec)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700">${fmtR(totMkt)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700">${fmtR(totLog)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700;color:var(--red)">${fmtR(totRemb)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700;text-align:center">${fmtInt(totV1)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700;text-align:center">${fmtInt(totV3)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700;text-align:center">${fmtInt(totV6)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700;text-align:center">${fmtInt(totVen)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700;text-align:center">${fmtInt(totFr)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700">${fmtR(totCmv,2)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700">${fmtR(totTax,2)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700;color:${totLuc>=0?'var(--green)':'var(--red)'}">${fmtR(totLuc,2)}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700">${isFinite(lucPedTot)?fmtR(lucPedTot,2):'—'}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700">${isFinite(cacTot)?fmtR(cacTot,2):'—'}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700;color:${roasCol}">${isFinite(roasTot)?roasTot.toFixed(2).replace('.',',')+'×':'—'}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700">${isFinite(tickTot)?fmtR(tickTot,2):'—'}</td>`+
+      `<td style="font-family:var(--font-mono);font-weight:700">${fmtPct(txRembTot)}</td>`+
+      `<td><span class="pill ${pillC(margTot)}">${fmtPct(margTot)}</span></td>`+
+      `<td></td>`;
+    tbody.appendChild(totTr);
+
+    updateFinKPIs(calcd);
+    buildReceitaChart(calcd);
+    updateDonutMix(calcd);
+  }
+
+  // ── KPIs ──────────────────────────────────────────────────────
+  function updateFinKPIs(calcd) {
+    let totRec=0, totVen=0, totFr=0, totLuc=0, first='', last='';
+    calcd.forEach((r,i) => {
+      totRec += r.receita||0; totVen += r.vendas||0;
+      totFr  += r.frascos||0; totLuc += r.lucro||0;
+      if (i===0) first = r.date||''; last = r.date||'';
+    });
+    const marg = totRec > 0 ? totLuc/totRec*100 : NaN;
+    const s = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+    const sc = (id,c) => { const e=document.getElementById(id); if(e) e.className=c; };
+    const ss = (id,k,v) => { const e=document.getElementById(id); if(e) e.style[k]=v; };
+
+    s('fin-kpi-receita', calcd.length ? fmtR(totRec) : '—');
+    sc('fin-kpi-receita', 'kval '+(totRec>0?'c-green':'')); ss('fin-kpi-receita','fontSize','22px');
+    s('fin-kpi-vendas', calcd.length ? fmtInt(totVen) : '—'); ss('fin-kpi-vendas','fontSize','22px');
+    s('fin-kpi-frascos', calcd.length ? fmtInt(totFr) : '—'); ss('fin-kpi-frascos','fontSize','22px');
+    s('fin-kpi-lucro', calcd.length ? fmtR(totLuc) : '—');
+    sc('fin-kpi-lucro', 'kval '+(totLuc>=0?'c-green':'c-red')); ss('fin-kpi-lucro','fontSize','22px');
+    s('fin-kpi-periodo', calcd.length ? calcd.length+' dias · '+first+' a '+last : 'Sem dados');
+    s('fin-kpi-frascos-pill', calcd.length ? fmtInt(totFr)+' frascos' : '—');
+    const mEl = document.getElementById('fin-kpi-margem');
+    if (mEl) { mEl.textContent='▲ Margem '+(isFinite(marg)?marg.toFixed(1)+'%':'—'); mEl.className='pill '+pillC(marg); }
+  }
+
+  // ── Add new row ───────────────────────────────────────────────
+  window.addFinRow = function() {
+    const tbody = document.getElementById('fin-tbody');
+    if (!tbody) return;
+    const emptyRow = tbody.querySelector('td[colspan="20"]');
+    if (emptyRow) emptyRow.closest('tr').remove();
+
+    const tr = document.createElement('tr');
+    tr.classList.add('editing');
+    tr.innerHTML = rowFormHTML(null) +
+      '<td class="td-actions">'+
+        '<button class="row-save-btn" title="Salvar">✓</button>'+
+        '<button class="row-cancel-btn" title="Cancelar">✗</button>'+
+      '</td>';
+    tbody.appendChild(tr);
+    wireRowLive(tr);
+    tr.querySelector('[name="fi-date"]').focus();
+
+    tr.querySelector('.row-save-btn').onclick = function() {
+      const rows = getData();
+      rows.push(readFormRaw(tr));
+      saveData(rows);
+      renderFinTable();
+    };
+    tr.querySelector('.row-cancel-btn').onclick = function() {
+      tr.remove();
+      if (getData().length === 0) {
+        document.getElementById('fin-tbody').innerHTML =
+          '<tr><td colspan="20" style="text-align:center;color:var(--text-3);padding:32px;font-family:var(--font-mono);font-size:11px">Clique em ＋ Adicionar Dia para começar</td></tr>';
+      }
+    };
+  };
+
+  // ── Edit row ──────────────────────────────────────────────────
+  window.finEditRow = function(idx) {
+    const rows = getData();
+    const r = rows[idx];
+    if (!r) return;
+    const tr = document.getElementById('fin-tbody').querySelector('tr[data-idx="'+idx+'"]');
+    if (!tr) return;
+    tr.classList.add('editing');
+    tr.innerHTML = rowFormHTML(r) +
+      '<td class="td-actions">'+
+        '<button class="row-save-btn" title="Salvar">✓</button>'+
+        '<button class="row-cancel-btn" title="Cancelar">✗</button>'+
+      '</td>';
+    wireRowLive(tr);
+    tr.querySelector('[name="fi-date"]').focus();
+    tr.querySelector('.row-save-btn').onclick = function() { rows[idx]=readFormRaw(tr); saveData(rows); renderFinTable(); };
+    tr.querySelector('.row-cancel-btn').onclick = function() { renderFinTable(); };
+  };
+
+  // ── Delete row ────────────────────────────────────────────────
+  window.finDeleteRow = function(idx) {
+    if (!confirm('Excluir os dados deste dia?')) return;
+    const rows = getData();
+    rows.splice(idx, 1);
+    saveData(rows);
+    renderFinTable();
+  };
+
+  // ── Init ──────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', async function() {
+    // Fill config inputs from localStorage first (instant render)
+    let cfg = getCfg();
+    const ce=document.getElementById('cfg-cmv'), te=document.getElementById('cfg-taxa'), fe=document.getElementById('cfg-fixo');
+    if(ce) ce.value=cfg.cmvFrasco; if(te) te.value=cfg.taxaPct; if(fe) fe.value=cfg.custoFixoDia;
+    renderFinTable();
+
+    // Pull latest data from cloud (may overwrite local with newer data)
+    const ok = await cloudLoad();
+    if (ok) {
+      cfg = getCfg();
+      if(ce) ce.value=cfg.cmvFrasco; if(te) te.value=cfg.taxaPct; if(fe) fe.value=cfg.custoFixoDia;
+      renderFinTable();
+    }
+  });
+
+  // stub — Google Sheets sync replaced by manual entry above
+  window.loadFinDiario = function() { /* no-op */ };
+
+})();
+
+// ── GRÁFICO DE LINHA: RECEITA POR DIA ──
+function buildReceitaChart(rows) {
+  const svg = document.getElementById('chart-receita');
+  if (!svg) return;
+
+  // Dimensions
+  const VW = 460, VH = 165;
+  const ML = 48, MR = 14, MT = 22, MB = 28;
+  const CW = VW - ML - MR, CH = VH - MT - MB;
+  const BASE_Y = MT + CH; // bottom of chart area
+
+  // Extract date + receita, filter rows with valid receita
+  // rows is array of objects with .date and .receita (from manual entry)
+  const points = rows
+    .filter(r => r.receita > 0)
+    .map(r => ({ date: r.date || '', val: r.receita }));
+
+  if (points.length === 0) return;
+
+  const maxVal = Math.max(...points.map(p => p.val));
+  const topVal = maxVal * 1.08; // add 8% headroom
+
+  // Helper: value → y coordinate
+  function vy(v) { return BASE_Y - (v / topVal) * CH; }
+
+  // Helper: index → x coordinate
+  function vx(i) {
+    if (points.length === 1) return ML + CW / 2;
+    return ML + (i / (points.length - 1)) * CW;
+  }
+
+  // Format value label
+  function fmtShort(v) {
+    if (v >= 1000000) return 'R$' + (v/1000000).toFixed(1) + 'M';
+    if (v >= 1000)    return 'R$' + Math.round(v/1000) + 'k';
+    return 'R$' + Math.round(v);
+  }
+
+  // Grid Y-axis ticks (4 lines)
+  const gridVals = [0.25, 0.5, 0.75, 1.0].map(f => topVal * f);
+
+  let html = '';
+
+  // Grid lines + Y labels
+  gridVals.forEach(gv => {
+    const gy = vy(gv);
+    html += `<line x1="${ML}" y1="${gy.toFixed(1)}" x2="${VW - MR}" y2="${gy.toFixed(1)}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+    html += `<text x="${ML - 4}" y="${(gy + 3).toFixed(1)}" text-anchor="end" font-size="9" fill="rgba(232,232,240,0.22)" font-family="IBM Plex Mono">${fmtShort(gv)}</text>`;
+  });
+  // Baseline
+  html += `<line x1="${ML}" y1="${BASE_Y}" x2="${VW - MR}" y2="${BASE_Y}" stroke="rgba(255,255,255,0.07)" stroke-width="1.5"/>`;
+
+  // Build smooth path using cubic bezier
+  const coords = points.map((p, i) => ({ x: vx(i), y: vy(p.val) }));
+
+  // Area fill path (closed polygon back along baseline)
+  let areaD = `M ${coords[0].x.toFixed(1)},${BASE_Y}`;
+  areaD += ` L ${coords[0].x.toFixed(1)},${coords[0].y.toFixed(1)}`;
+  for (let i = 1; i < coords.length; i++) {
+    const cx1 = (coords[i-1].x + coords[i].x) / 2;
+    areaD += ` C ${cx1.toFixed(1)},${coords[i-1].y.toFixed(1)} ${cx1.toFixed(1)},${coords[i].y.toFixed(1)} ${coords[i].x.toFixed(1)},${coords[i].y.toFixed(1)}`;
+  }
+  areaD += ` L ${coords[coords.length-1].x.toFixed(1)},${BASE_Y} Z`;
+  html += `<path d="${areaD}" fill="url(#grad-receita)"/>`;
+
+  // Line path
+  let lineD = `M ${coords[0].x.toFixed(1)},${coords[0].y.toFixed(1)}`;
+  for (let i = 1; i < coords.length; i++) {
+    const cx1 = (coords[i-1].x + coords[i].x) / 2;
+    lineD += ` C ${cx1.toFixed(1)},${coords[i-1].y.toFixed(1)} ${cx1.toFixed(1)},${coords[i].y.toFixed(1)} ${coords[i].x.toFixed(1)},${coords[i].y.toFixed(1)}`;
+  }
+  html += `<path d="${lineD}" fill="none" stroke="#00E07A" stroke-width="2.2" stroke-linecap="round" filter="url(#lglow)"/>`;
+
+  // Data points + tooltips + labels
+  points.forEach((p, i) => {
+    const cx = coords[i].x, cy = coords[i].y;
+    html += `<circle class="bar-hover" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="5" fill="#00E07A" stroke="var(--bg2)" stroke-width="2"
+      data-label="${p.date} · Receita" data-val="${fmtShort(p.val)}" data-sub="${fmtShort(p.val)}"/>`;
+    // Value label above point
+    html += `<text x="${cx.toFixed(1)}" y="${(cy - 9).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="#00E07A" font-family="IBM Plex Mono">${fmtShort(p.val)}</text>`;
+    // X axis date label
+    html += `<text x="${cx.toFixed(1)}" y="${(BASE_Y + 16).toFixed(1)}" text-anchor="middle" font-size="9" fill="rgba(232,232,240,0.35)" font-family="IBM Plex Mono">${p.date}</text>`;
+  });
+
+  // Remove loading text, inject content
+  const loading = svg.getElementById ? svg.getElementById('chart-receita-loading') : svg.querySelector('#chart-receita-loading');
+  if (loading) loading.remove();
+
+  // Insert before closing </svg> by setting innerHTML of a group
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.innerHTML = html;
+  svg.appendChild(g);
+
+  // Update subtitle
+  if (points.length > 0) {
+    const sub = document.getElementById('chart-receita-sub');
+    if (sub) sub.textContent = 'EVOLUÇÃO DIÁRIA · ' + points[0].date + ' A ' + points[points.length-1].date + ' // LIVE';
+  }
+}
+
+// ── DONUT: MIX DE VENDAS ──
+function updateDonutMix(rows) {
+  // rows is array of objects with .v1, .v3, .v6 (from manual entry)
+  let v1 = 0, v3 = 0, v6 = 0;
+  rows.forEach(r => {
+    v1 += r.v1 || 0;
+    v3 += r.v3 || 0;
+    v6 += r.v6 || 0;
+  });
+  const total = v1 + v3 + v6;
+  if (total === 0) return;
+
+  const p1 = v1 / total, p3 = v3 / total, p6 = v6 / total;
+  const C = 2 * Math.PI * 72; // circumference for r=72
+
+  // Update arcs
+  const circles = document.querySelectorAll('#donut-mix circle');
+  // circles[0]=bg, [1]=cyan(v1), [2]=violet(v3), [3]=blue(v6), [4]=hole
+  if (circles[1]) {
+    circles[1].setAttribute('stroke-dasharray', (p1*C).toFixed(1) + ' ' + C.toFixed(1));
+    circles[1].setAttribute('stroke-dashoffset', '0');
+  }
+  if (circles[2]) {
+    circles[2].setAttribute('stroke-dasharray', (p3*C).toFixed(1) + ' ' + C.toFixed(1));
+    circles[2].setAttribute('stroke-dashoffset', (-p1*C).toFixed(1));
+  }
+  if (circles[3]) {
+    circles[3].setAttribute('stroke-dasharray', (p6*C).toFixed(1) + ' ' + C.toFixed(1));
+    circles[3].setAttribute('stroke-dashoffset', (-(p1+p3)*C).toFixed(1));
+  }
+
+  // Update labels
+  const totEl = document.getElementById('donut-total');
+  if (totEl) totEl.textContent = total.toLocaleString('pt-BR');
+  const p1El = document.getElementById('mix-pct-1');
+  if (p1El) p1El.textContent = Math.round(p1*100) + '%';
+  const p3El = document.getElementById('mix-pct-3');
+  if (p3El) p3El.textContent = Math.round(p3*100) + '%';
+  const p6El = document.getElementById('mix-pct-6');
+  if (p6El) p6El.textContent = Math.round(p6*100) + '%';
+}
+
+// Keyframe para o ícone de sync girando
+(function() {
+  const s = document.createElement('style');
+  s.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+  document.head.appendChild(s);
+})();
 </script>
 </body>
 </html>

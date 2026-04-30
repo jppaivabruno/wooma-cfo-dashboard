@@ -2387,10 +2387,17 @@ td.td-actions { text-align: right !important; white-space: nowrap; width: 60px; 
       </div>
       <input type="hidden" id="forn-edit-id">
       <div style="display:flex;flex-direction:column;gap:14px">
-        <div>
-          <label style="font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.05em;display:block;margin-bottom:6px">NOME *</label>
-          <input id="forn-nome" type="text" placeholder="Nome do fornecedor"
-            style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <label style="font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.05em;display:block;margin-bottom:6px">NOME *</label>
+            <input id="forn-nome" type="text" placeholder="Nome do fornecedor"
+              style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)">
+          </div>
+          <div>
+            <label style="font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.05em;display:block;margin-bottom:6px">CATEGORIA</label>
+            <input id="forn-tipo" type="text" placeholder="Ex: Frasco, Rótulo..."
+              style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;font-family:var(--font-body)">
+          </div>
         </div>
         <div>
           <label style="font-size:11px;font-family:var(--font-mono);color:var(--text-3);letter-spacing:.05em;display:block;margin-bottom:6px">WHATSAPP</label>
@@ -3436,7 +3443,10 @@ function renderForn() {
 
     card.innerHTML = `
       <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
-        <div style="font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--text)">${f.nome}</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div style="font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--text)">${f.nome}</div>
+          ${f.tipo ? `<span style="font-size:10px;font-family:var(--font-mono);font-weight:600;letter-spacing:.06em;color:var(--cyan);background:rgba(0,224,122,0.1);border:1px solid rgba(0,224,122,0.25);border-radius:5px;padding:2px 7px">${f.tipo}</span>` : ''}
+        </div>
         <div style="display:flex;gap:4px">
           <button onclick="event.stopPropagation();editarForn('${f.id}')" title="Editar"
             style="background:none;border:1px solid var(--border2);border-radius:6px;padding:4px 8px;color:var(--text-3);cursor:pointer;font-size:11px">✏️</button>
@@ -3561,11 +3571,12 @@ function renderPedidos(fornId) {
 
 // ── Fornecedor CRUD modals ──
 function abrirModalForn() {
-  document.getElementById('forn-edit-id').value         = '';
+  document.getElementById('forn-edit-id').value          = '';
   document.getElementById('forn-modal-title').textContent = 'Novo Fornecedor';
-  document.getElementById('forn-nome').value            = '';
-  document.getElementById('forn-tel').value             = '';
-  document.getElementById('forn-modal').style.display   = 'flex';
+  document.getElementById('forn-nome').value             = '';
+  document.getElementById('forn-tipo').value             = '';
+  document.getElementById('forn-tel').value              = '';
+  document.getElementById('forn-modal').style.display    = 'flex';
   setTimeout(() => document.getElementById('forn-nome').focus(), 50);
 }
 
@@ -3579,6 +3590,7 @@ function editarForn(id) {
   document.getElementById('forn-edit-id').value          = id;
   document.getElementById('forn-modal-title').textContent = 'Editar Fornecedor';
   document.getElementById('forn-nome').value             = f.nome || '';
+  document.getElementById('forn-tipo').value             = f.tipo || '';
   document.getElementById('forn-tel').value              = f.tel  || '';
   document.getElementById('forn-modal').style.display    = 'flex';
   setTimeout(() => document.getElementById('forn-nome').focus(), 50);
@@ -3588,7 +3600,7 @@ function salvarForn() {
   const nome = document.getElementById('forn-nome').value.trim();
   if (!nome) { alert('Nome é obrigatório.'); return; }
   const id  = document.getElementById('forn-edit-id').value;
-  const obj = { id: id || fornUid(), nome, tel: document.getElementById('forn-tel').value.trim() };
+  const obj = { id: id || fornUid(), nome, tipo: document.getElementById('forn-tipo').value.trim(), tel: document.getElementById('forn-tel').value.trim() };
   let list = fornLoad();
   list = id ? list.map(x => x.id === id ? obj : x) : [...list, obj];
   list.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
